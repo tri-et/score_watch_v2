@@ -1,0 +1,108 @@
+<template>
+  <header>
+    <nav>
+      <ul>
+        <li>
+          <i class="material-icons">menu</i>
+        </li>
+        <li>
+          <a class="logo"></a>
+        </li>
+        <li>
+          <a>predictions</a>
+        </li>
+        <li>
+          <a>live score</a>
+        </li>
+        <!-- <li><a>help</a></li>
+        <li><a>about</a></li> -->
+        <li>
+          <a class="logo"></a>
+        </li>
+        <li>
+          <a><img src="../assets/images/Help Icon@1x.svg" alt="" width="24" height="24"></a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+</template>
+<script>
+export default {};
+</script>
+<style scoped>
+@media (min-width: 320px) {
+  li:not(:first-child):not(:nth-child(3)):not(:nth-child(5)) {
+    display: none;
+  }
+  li:nth-child(3){
+    flex: 1;
+  }
+}
+@media (min-width: 843px) {
+  li:first-child,:nth-child(5){
+    display: none;
+  }
+  li:nth-child(3){
+    flex: none;
+    box-shadow: -1px 0 0 0 rgba(255,255,255,0.1);
+  }
+  li:not(:first-child):not(:nth-child(3)):not(:nth-child(5)) {
+    display: grid;
+  }
+  li:nth-child(4){
+    flex: 1;
+  }
+
+  li:nth-child(2){
+    padding: 8px;
+  }
+}
+
+header {
+  background-color: #444;
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  min-width: 320px;
+  width: 100%;
+  max-width: 1280px;
+  font-size: 18px;
+}
+ul {
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+li {
+  float: left;
+  display: grid;
+  align-items: center;
+  height: 64px;
+  padding: 0 15px;
+  text-transform: uppercase;
+  color: white;
+  cursor: pointer;
+}
+
+li:nth-child(4) {
+  flex: 1;
+}
+
+li:last-child {
+  padding: 2px 20px 0px 20px;
+  box-shadow: -1px 0 0 0 rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  height: 48px;
+  width: 48px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #e8e8e8 0%, #ffffff 100%);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.5),
+    0 2px 3px 0 rgba(0, 0, 0, 0.34);
+}
+</style>
+
+

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="19px" height="26px" viewBox="0 0 19 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>lose icon@1x</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-43.000000, -1071.000000)">
+        <g id="Expired-In-Play" transform="translate(16.000000, 752.000000)" fill="#FF7C7C">
+            <g id="match-2" transform="translate(8.000000, 256.000000)">
+                <g id="pred-1" transform="translate(0.000000, 56.000000)">
+                    <g id="lose-icon" transform="translate(18.000000, 7.000000)">
+                        <path d="M10,0 C5.58186667,0 2,3.58186667 2,8 C2,12.4181333 5.58186667,16 10,16 C14.4181333,16 18,12.4181333 18,8 C18,3.58186667 14.4181333,0 10,0 Z M13.7715556,10.5139556 L12.5146133,11.7708978 L9.99994667,9.25694222 L7.48599111,11.7716089 L6.22904889,10.5146667 L8.74300444,8 L6.22833778,5.48604444 L7.48528,4.22910222 L9.99994667,6.74305778 L12.5139022,4.22910222 L13.7708444,5.48604444 L11.2568889,8 L13.7715556,10.5139556 Z" id="Shape" fill-rule="nonzero"></path>
+                        <text id="LOSE" font-family="Roboto-Bold, Roboto" font-size="8" font-weight="bold">
+                            <tspan x="0.86328125" y="25">LOSE</tspan>
+                        </text>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
