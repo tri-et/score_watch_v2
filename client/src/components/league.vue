@@ -2,7 +2,6 @@
   <div class="league">
     <div>
       <div class="icon_league"></div>
-      <span>ERL</span>
     </div>
     <span>{{leaguename}}</span>
   </div>

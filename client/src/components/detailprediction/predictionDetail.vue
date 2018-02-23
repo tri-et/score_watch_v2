@@ -1,17 +1,17 @@
 <template>
   <div class="prediction" :style="bg">
     <div class="icongold"><img :src="icon" alt="" width="24" height="24" :key="1233"></div>
-    <div class="teamname">Man. Utd</div>
+    <div class="teamname">{{items.pick_hdp=="H"?items.team_home:items.team_away}}&nbsp;</div>
     <div class="odds">
-      <span>&nbsp;[1:1]</span>
-      <span>1.1</span>
+      <span>&nbsp;{{'['+items.score_home+':'+items.score_away+']'}}</span>
+      <span>{{items.sys.hdp}}</span>
       <span>@</span>
-      <span>0.91</span>
+      <span>{{items.pick_hdp=="H"?items.sys.odds_home:items.sys.odds_away}}</span>
     </div>
-    <div class="timer">2m 32s</div>
+    <!-- <div class="timer">2m 32s</div>
     <div v-show="live=='inplay'" class="new">
       <span>new</span>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -21,6 +21,9 @@ export default {
   props: {
     live: {
       type: String
+    },
+    items:{
+      type:Object
     }
   },
   data() {
@@ -55,6 +58,16 @@ export default {
 };
 </script>
 <style scoped>
+@media (min-width: 672px){
+  .prediction{
+    top:212px !important;
+  }
+}
+@media (min-width: 320px){
+  .prediction{
+    top:264px;
+  }
+}
 .prediction {
   height: 56px;
   display: flex;
@@ -63,7 +76,8 @@ export default {
   position: absolute;
   left: 15px;
   right: 15px;
-  top:212px;
+  /* top:212px; */
+  /* top:264px; */
   border-radius: 3px;
   box-shadow: 0 8px 12px 0 rgba(0,0,0,0.17);
 }

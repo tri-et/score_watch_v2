@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="28px" viewBox="0 0 20 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>Win icon@1x</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M13.6568889,2.34311111 C12.1561956,0.843111111 10.1214222,0 8,0 C5.87857778,0 3.84373333,0.843057778 2.34311111,2.34311111 C0.843111111,3.84380444 0,5.87857778 0,8 C0,10.1214222 0.843057778,12.1562667 2.34311111,13.6568889 C3.84380444,15.1568889 5.87857778,16 8,16 C10.1214222,16 12.1562667,15.1569422 13.6568889,13.6568889 C15.1568889,12.1561956 16,10.1214222 16,8 C16,5.87857778 15.1569422,3.84373333 13.6568889,2.34311111 Z M6.38613333,11.9820444 L3.2,8.79662222 L3.82917333,8.16744889 L6.38615111,10.7251378 L12.3077511,4.80016 L12.9369244,5.42933333 L6.38613333,11.9820444 Z" id="path-1"></path>
+        <filter x="-21.9%" y="-15.6%" width="143.8%" height="143.8%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.17 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <filter x="-15.6%" y="-9.4%" width="131.2%" height="131.2%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetInner1"></feOffset>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"></feComposite>
+            <feColorMatrix values="0 0 0 0 1   0 0 0 0 1   0 0 0 0 1  0 0 0 0.5 0" type="matrix" in="shadowInnerInner1"></feColorMatrix>
+        </filter>
+        <text id="text-4" font-family="Roboto-Bold, Roboto" font-size="8" font-weight="bold" fill="#FFD848">
+            <tspan x="1.01171875" y="25">WIN</tspan>
+        </text>
+        <filter x="-13.3%" y="-11.1%" width="126.7%" height="144.4%" filterUnits="objectBoundingBox" id="filter-5">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.1 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-42.000000, -910.000000)">
+        <g id="Expired-In-Play" transform="translate(16.000000, 752.000000)">
+            <g id="match-1" transform="translate(8.000000, 96.000000)">
+                <g id="pred-1" transform="translate(0.000000, 56.000000)">
+                    <g id="Win-icon" transform="translate(20.000000, 7.000000)">
+                        <g id="Shape" fill-rule="nonzero">
+                            <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                            <use fill="#FFDD51" fill-rule="evenodd" xlink:href="#path-1"></use>
+                            <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-1"></use>
+                        </g>
+                        <g id="WIN" fill="#FFD848" fill-opacity="1">
+                            <use filter="url(#filter-5)" xlink:href="#text-4"></use>
+                            <use xlink:href="#text-4"></use>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

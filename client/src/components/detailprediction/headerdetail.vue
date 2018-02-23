@@ -1,17 +1,21 @@
 <template>
   <div class="headerdetail">
-    <headleague></headleague>
-    <headerscore></headerscore>
-    <headerteamname></headerteamname>
+    <headleague :leaguename="dataSelectedPrediction.league"></headleague>
+    <headerscore :items="dataSelectedPrediction"></headerscore>
+    <headerteamname :teamaway="dataSelectedPrediction.team_away" :teamhome="dataSelectedPrediction.team_home"></headerteamname>
   </div>
-  
+
 </template>
 <script>
-import headleague from "./headleague"
-import headerscore from "./headerscore"
-import headerteamname from "./headerteamname"
+import headleague from "./headleague";
+import headerscore from "./headerscore";
+import headerteamname from "./headerteamname";
+import { mapGetters } from "vuex";
 export default {
-  components:{
+   computed: {
+    ...mapGetters(["dataSelectedPrediction"])
+  },
+  components: {
     headleague,
     headerscore,
     headerteamname

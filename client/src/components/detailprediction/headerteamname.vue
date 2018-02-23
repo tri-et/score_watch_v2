@@ -1,9 +1,9 @@
 <template>
   <div class="headerteamname">
     <div class="teamname">
-      <div class="hometeam">Manchester United</div>
+      <div class="hometeam">{{teamhome}}</div>
       <div class="vs">vs.</div>
-      <div class="awayteam">Liverpool</div>
+      <div class="awayteam">{{teamaway}}</div>
     </div>
     <div class="sytem">
       <span>System Prediction recommended pick:</span>
@@ -13,7 +13,14 @@
 </template>
 <script>
 export default {
-  
+  props:{
+    teamhome:{
+      type:String
+    },
+    teamaway:{
+      type:String
+    }
+  }
 }
 </script>
 <style scoped>

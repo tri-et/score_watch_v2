@@ -2,25 +2,26 @@
   <div class="match">
     <div class="minutes" v-show="typematch=='inplay'">
       <span class="live"></span>
-      <span>'86</span>
+      <span>{{item.match_minute+"\'"}}</span>
     </div>
     <div class="match_time" v-show="typematch=='pregame'">
-      <span>14:20</span>
+      <span>{{item.match_dt|matchDate}}</span>
     </div>
     <div class="match_time_ft" v-show="typematch=='expired'">
       <span>FT</span>
-      <span>14:20</span>
+      <span>{{item.match_dt|matchDate}}</span>
     </div>
     <div class="teamname">
-      <span>Manchester united</span>
-      <span>Liverpool</span>
+      <span>{{item.team_home}}</span>
+      <span>{{item.team_away}}</span>
     </div>
     <div class="score" v-show="typematch!='pregame'">
-      <span>1</span>
-      <span>1</span>
+      <span>{{item.score_home}}</span>
+      <span>{{item.score_away}}</span>
     </div>
     <div class="time" v-show="typematch=='pregame'">
-      <span>live</span>
+      <span class="timelive" v-show="item.match_period!=''">live</span>
+      <span class="timeremaining" v-show="item.match_period==''">{{item.match_dt|setremaining}}</span>
     </div>
   </div>
 </template>
@@ -29,6 +30,40 @@ export default {
   props: {
     typematch: {
       type: String
+    },
+    item: {
+      type: Object
+    }
+  },
+  filters: {
+    setremaining(matchdate) {
+      var matchDate = new Date(matchdate);
+      var currentDate = new Date();
+      var millisec = matchDate.getTime() - currentDate.getTime();
+      var seconds = (millisec / 1000).toFixed(0);
+      var minutes = Math.floor(seconds / 60);
+      var hours = "";
+      if (minutes > 59) {
+        hours = Math.floor(minutes / 60);
+        hours = hours >= 10 ? hours : "0" + hours;
+        minutes = minutes - hours * 60;
+        minutes = minutes >= 10 ? minutes : "0" + minutes;
+      }
+
+      seconds = Math.floor(seconds % 60);
+      seconds = seconds >= 10 ? seconds : "0" + seconds;
+      if (hours != "") {
+        return "in " + hours + "h " + minutes + "m";
+      }
+      return "in " + minutes + "m";
+    },
+    matchDate(value) {
+      var date = new Date(value);
+      return (
+        date.getHours() +
+        ":" +
+        (date.getMinutes() == 0 ? "00" : date.getMinutes())
+      );
     }
   }
 };
@@ -82,15 +117,24 @@ export default {
   margin-right: 10px;
 }
 
-.time{
-  color: #69AE72;
+.time {
+  /* color: #69ae72; */
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: 10px;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   font-size: 12px;
-  font-weight: 700;
+  /* font-weight: 700; */
+}
+.timeremaining {
+  color: #000;
+  opacity: 0.34;
+}
+.timelive {
+  font-weight: bold;
+  color: #69ae72;
+  text-transform: uppercase;
 }
 </style>
 

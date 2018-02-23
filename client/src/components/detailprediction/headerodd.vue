@@ -1,5 +1,5 @@
 <template>
-   <div class="odd">
+   <div class="odd" :style="{'background-color':typePrediction}">
      <div class="content-odd">
        <div><span>ODDS</span></div>
        <div><span>HANDICAP</span></div>
@@ -9,13 +9,16 @@
    </div>
 </template>
 <script>
+import { mapGetters} from "vuex";
 export default {
-  
+  computed: {
+    ...mapGetters(["typePrediction"])
+  }
 }
 </script>
 <style scoped>
 .odd{
-  background-color: #FF7C7C;
+  /* background-color: #FF7C7C; */
   height: 84px;
   display:flex;
   align-items: flex-end;
@@ -30,12 +33,14 @@ export default {
   align-items: center;
 }
 .content-odd div {
-  width: 25%;
+  width: 23.5%;
   text-align: center;
 }
 .content-odd div:first-child{
   text-align: left;
   padding-left: 20px;
+  font-size: 16px;
+  font-weight: 500;
 }
 </style>
 

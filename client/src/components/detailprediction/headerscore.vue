@@ -1,15 +1,21 @@
 <template>
   <div class="headerscore">
-    <div class="homescore">1</div>
+    <div class="homescore">{{items.score_home}}</div>
     <div class="match-time">
       <div class="hour">2H</div>
       <div class="minute">86'</div>
     </div>
-    <div class="awayscore">1</div>
+    <div class="awayscore">{{items.score_away}}</div>
   </div>
 </template>
 <script>
-export default {};
+export default {
+  props:{
+    items:{
+      type:Object
+    }
+  }
+};
 </script>
 <style scoped>
 .headerscore {

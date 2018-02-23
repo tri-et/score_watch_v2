@@ -2,15 +2,21 @@
   <div class="headerleague">
     <div>
       <div class="icon_league"></div>
-      <span>ERL</span>
+      <!-- <span>ERL</span> -->
     </div>
     <div>
-      <span>English Premier League</span>
+      <span>{{leaguename}}</span>
     </div>
   </div>
 </template>
 <script>
-export default {};
+export default {
+  props:{
+    leaguename:{
+      type:String
+    }
+  }
+};
 </script>
 <style scoped>
 .headerleague {

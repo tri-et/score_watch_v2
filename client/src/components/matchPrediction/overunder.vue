@@ -1,17 +1,16 @@
 <template>
-  <div class="prediction" :style="bg">
-    <div class="icongold"><img :src="setIcon(items,live)" alt="" width="24" height="24" :key="1233"></div>
-    <div class="teamname">{{items.pick_hdp=="H"?items.team_home:items.team_away}}&nbsp;</div>
+  <div class="overunder" :style="bg">
+    <div class="icongold"><img :src="setSrcIconUnder(items,live)" alt="" width="24" height="24" :key="1233"></div>
+    <div class="teamname">{{items.pick_ou=="O"?'Over':'Under'}}&nbsp;</div>
     <div class="odds">
-      <span v-show="live!='pregame'">&nbsp;[1:1]</span>
-      <span>{{items.sys.hdp}}</span>
+      <span>{{items.sys.ou}}</span>
       <span>@</span>
-      <span>{{items.pick_hdp=="H"?items.sys.odds_home:items.sys.odds_away}}</span>
+      <span>{{items.pick_ou=="O"?items.sys.odds_over:items.sys.odds_under}}</span>
     </div>
     <div class="timer" v-show="live=='inplay'">2m 32s</div>
-    <div v-show="live=='inplay'" class="new">
+    <!-- <div v-show="live=='inplay'" class="new">
       <span>new</span>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
@@ -38,36 +37,37 @@ export default {
     };
   },
   methods: {
-    setIcon(data, live) {
-      var url = pred_gold;
-      let score_home = parseInt(data.score_home);
-      let score_away = parseInt(data.score_away);
-      let hpd = parseFloat(data.sys.hdp);
-      if (live == "expired") {
-        switch (data.pick_hdp) {
-          case "H":
-            if (hpd + score_home > score_away) {
-              url = win_icon;
+    setSrcIconUnder(data,live) {
+      let url = ''
+      let ou = parseFloat(data.sys.ou)
+      let finalsocre=parseInt(data.score_home)+parseInt(data.score_away)
+      if (live == 'expired') {
+        switch (data.pick_ou) {
+          case 'O':
+            if (finalsocre>ou) {
+              url = win_icon
               this.bg.backgroundColor = "#69AE72";
-            } else if (hpd + score_home < score_away) {
-              url = lose_icon;
+            } else if (finalsocre<ou) {
+              url = lose_icon
             } else {
-              url = draw_icon;
+              url = draw_icon
             }
-            break;
+            break
           default:
-            if (hpd + score_away > score_home) {
-              url = win_icon;
+            if (finalsocre<ou) {
+              url = win_icon
               this.bg.backgroundColor = "#69AE72";
-            } else if (hpd + score_away < score_home) {
-              url = lose_icon;
+            } else if (finalsocre>ou) {
+              url = lose_icon
             } else {
-              url = draw_icon;
+              url = draw_icon
             }
-            break;
+            break
         }
+      } else {
+        url = pred_gold
       }
-      return url;
+      return url
     }
   },
   created() {
@@ -87,13 +87,14 @@ export default {
 };
 </script>
 <style scoped>
-.prediction {
+.overunder {
   height: 40px;
   display: flex;
   align-items: center;
   padding-right: 7px;
+  /* margin-bottom: 10px; */
 }
-div[class="prediction"]:not(:last-child) {
+div[class="overunder"]:not(:last-child) {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 .icongold {
