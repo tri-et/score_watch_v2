@@ -1,15 +1,18 @@
 <template>
   <div class="prediction" :style="bg">
     <div class="icongold"><img :src="setIcon(items,live)" alt="" width="24" height="24" :key="1233"></div>
-    <div class="teamname">{{items.pick_hdp=="H"?items.team_home:items.team_away}}&nbsp;</div>
+    <div class="teamname" :style="{'min-width':marquee?'73px':''}">
+      <span :class="{'marquee':marquee}">{{items.pick_hdp=="H"?items.team_home:items.team_away}}</span>&nbsp;
+    </div>
+    <resize-observer @notify="handleResize" />
     <div class="odds">
       <span v-show="live!='pregame'">&nbsp;[1:1]</span>
       <span>{{items.sys.hdp}}</span>
       <span>@</span>
       <span>{{items.pick_hdp=="H"?items.sys.odds_home:items.sys.odds_away}}</span>
     </div>
-    <div class="timer" v-show="live=='inplay'">2m 32s</div>
-    <div v-show="live=='inplay'" class="new">
+    <!-- <div class="timer" v-show="live=='inplay'"><countdown :items="items"></countdown></div> -->
+    <div v-show="items.newprediction==true" class="new">
       <span>new</span>
     </div>
   </div>
@@ -19,6 +22,7 @@ import pred_gold from "../../assets/images/pred_gold.svg";
 import lose_icon from "../../assets/images/lose_icon@1x.svg";
 import win_icon from "../../assets/images/win_icon@1x.svg";
 import draw_icon from "../../assets/images/draw_icon@1x.svg";
+import countdown from "./countdown";
 export default {
   props: {
     live: {
@@ -34,8 +38,12 @@ export default {
         backgroundColor: "",
         color: ""
       },
-      icon: pred_gold
+      icon: pred_gold,
+      marquee: false
     };
+  },
+  components: {
+    countdown
   },
   methods: {
     setIcon(data, live) {
@@ -49,6 +57,7 @@ export default {
             if (hpd + score_home > score_away) {
               url = win_icon;
               this.bg.backgroundColor = "#69AE72";
+              this.bg.color='#fff';
             } else if (hpd + score_home < score_away) {
               url = lose_icon;
             } else {
@@ -59,6 +68,7 @@ export default {
             if (hpd + score_away > score_home) {
               url = win_icon;
               this.bg.backgroundColor = "#69AE72";
+              this.bg.color='#fff';
             } else if (hpd + score_away < score_home) {
               url = lose_icon;
             } else {
@@ -68,6 +78,15 @@ export default {
         }
       }
       return url;
+    },
+
+    handleResize() {
+      var length = this.$el.querySelector(".teamname span").offsetWidth;
+      if (length > 75) {
+        this.marquee = true;
+      } else {
+        this.marquee = false;
+      }
     }
   },
   created() {
@@ -82,6 +101,14 @@ export default {
         this.bg.backgroundColor = "#f0f0f0";
         this.bg.color = "rgba(51,51,51,0.45)";
       // this.icon=lose_icon;
+    }
+  },
+  watch: {
+    items() {
+      let self = this;
+      setTimeout(() => {
+        self.items.newprediction = false;
+      }, 60000);
     }
   }
 };
@@ -104,6 +131,9 @@ div[class="prediction"]:not(:last-child) {
 .teamname {
   font-weight: 700;
   font-size: 14px;
+  position: relative;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .odds {
   font-size: 14px;
@@ -130,6 +160,19 @@ div[class="prediction"]:not(:last-child) {
 .timer {
   font-size: 14px;
   font-weight: 700;
+}
+.marquee {
+  position: absolute;
+  /* min-width: 77px; */
+  animation: leftmarquee 5s linear infinite;
+}
+@keyframes leftmarquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 </style>
 

@@ -13,8 +13,8 @@
           <div>
             <span>{{dataSelectedPrediction.sys.hdp}}</span>
           </div>
-          <oddou :items="dataSelectedPrediction.sys.odds_home"></oddou>
-          <oddou :items="dataSelectedPrediction.sys.odds_away"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.sys.odds_home,'match_code':dataSelectedPrediction.match_code}"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.sys.odds_away,'match_code':dataSelectedPrediction.match_code}"></oddou>
         </div>
         <div class="m8">
           <div>
@@ -23,8 +23,8 @@
           <div>
             <span>{{dataSelectedPrediction.sbo.hdp}}</span>
           </div>
-          <oddou :items="dataSelectedPrediction.sbo.odds_home"></oddou>
-          <oddou :items="dataSelectedPrediction.sbo.odds_away"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.sbo.odds_home,'match_code':dataSelectedPrediction.match_code}"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.sbo.odds_away,'match_code':dataSelectedPrediction.match_code}"></oddou>
         </div>
         <div class="m8">
           <div>
@@ -33,8 +33,8 @@
           <div>
             <span>{{dataSelectedPrediction.ibc.hdp}}</span>
           </div>
-          <oddou :items="dataSelectedPrediction.ibc.odds_home"></oddou>
-          <oddou :items="dataSelectedPrediction.ibc.odds_away"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.ibc.odds_home,'match_code':dataSelectedPrediction.match_code}"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.ibc.odds_away,'match_code':dataSelectedPrediction.match_code}"></oddou>
         </div>
       </div>
       <headerou></headerou>
@@ -46,8 +46,8 @@
           <div>
             <span>{{dataSelectedPrediction.sys.ou}}</span>
           </div>
-          <oddou :items="dataSelectedPrediction.sys.odds_over"></oddou>
-          <oddou :items="dataSelectedPrediction.sys.odds_under"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.sys.odds_over,'match_code':dataSelectedPrediction.match_code}"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.sys.odds_under,'match_code':dataSelectedPrediction.match_code}"></oddou>
         </div>
         <div class="m8">
           <div>
@@ -56,8 +56,8 @@
           <div>
             <span>{{dataSelectedPrediction.sbo.ou}}</span>
           </div>
-          <oddou :items="dataSelectedPrediction.sbo.odds_over"></oddou>
-          <oddou :items="dataSelectedPrediction.sbo.odds_under"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.sbo.odds_over,'match_code':dataSelectedPrediction.match_code}"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.sbo.odds_under,'match_code':dataSelectedPrediction.match_code}"></oddou>
         </div>
         <div class="m8">
           <div>
@@ -66,8 +66,8 @@
           <div>
             <span>{{dataSelectedPrediction.ibc.ou}}</span>
           </div>
-          <oddou :items="dataSelectedPrediction.ibc.odds_over"></oddou>
-          <oddou :items="dataSelectedPrediction.ibc.odds_under"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.ibc.odds_over,'match_code':dataSelectedPrediction.match_code}"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.ibc.odds_under,'match_code':dataSelectedPrediction.match_code}"></oddou>
         </div>
       </div>
     </div>

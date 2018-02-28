@@ -1,5 +1,5 @@
 <template>
-  <div class="ou" :style="{'background-color':typePrediction}">
+  <div class="ou" :style="{'background-color':typePrediction.colorheader}">
     <div class="content-ou">
       <div>
         <span>OU</span>

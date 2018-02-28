@@ -27,18 +27,6 @@ class GetData {
         var inplayprediction = []
         app.inplayprediction = []
         app.inplayExpired = []
-        // if (app.$store.state.predictionSelected.match_code != '') {
-        // 	let type = app.$store.state.predictionSelected.type
-        // 	let match_code = app.$store.state.predictionSelected.match_code
-        // 	switch (type) {
-        // 		case 'inplay':
-        // 			app.$store.state.dataPredictionDetail = data.Running.find(
-        // 				x => x.match_code == match_code,
-        // 			)
-        // 			break
-        // 	}
-        // }
-
         data.Running.forEach(v => {
           if (v.match_period == 'FT') {
             inplayExpired.push(v)
@@ -68,6 +56,11 @@ class GetData {
         app.inplayprediction = inplayprediction;
         app.leagueInplay = leagueInplay;
 
+        var match_code_active = app.$store.getters.activePrediction
+        var dataDetail = app.inplayprediction.find(x => x.match_code == match_code_active)
+        if (dataDetail != undefined) {
+          app.$store.commit('setdataSelectedPrediction', app.inplayprediction.find(x => x.match_code == match_code_active))
+        }
         setTimeout(() => {
           that.getDataInPlay(app)
         }, 3000)
@@ -86,8 +79,8 @@ class GetData {
         let data = JSON.parse(response)
         var leaguePregame = []
         var leagueExpPregame = []
-        let expiredPregame=[]
-        let pregameData=[]
+        let expiredPregame = []
+        let pregameData = []
         pregameData = data.Pregame
         expiredPregame = data.MatchesFinished
 
@@ -106,11 +99,11 @@ class GetData {
             })
           }
         }
-      
-      app.leaguePregame = leaguePregame;
-      app.leagueExpPregame = leagueExpPregame;
-      app.pregame = pregameData
-      app.expiredPregame = expiredPregame
+
+        app.leaguePregame = leaguePregame;
+        app.leagueExpPregame = leagueExpPregame;
+        app.pregame = pregameData
+        app.expiredPregame = expiredPregame
         // app.expiredPregame=data.MatchesFinished
         // if (app.$store.state.predictionSelected.match_code != '') {
         // 	let type = app.$store.state.predictionSelected.type
@@ -222,12 +215,24 @@ class GetData {
       app.inplayprediction = inplayprediction;
       app.leagueInplay = leagueInplay;
       app.leagueExpPregame = leagueExpPregame;
-      if(app.inplayprediction.length>0){
-        app.$store.commit('setactivePrediction',app.inplayprediction[0]['match_code'])
-        app.$store.commit('setdataSelectedPrediction',app.inplayprediction[0])
-      }else if(app.pregame.length>0){
-        app.$store.commit('setactivePrediction',app.pregame[0]['match_code'])
-        app.$store.commit('setdataSelectedPrediction',app.pregame[0])
+      if (app.inplayprediction.length > 0) {
+        app.$store.commit('setactivePrediction', app.inplayprediction[0]['match_code'])
+        app.$store.commit('setdataSelectedPrediction', app.inplayprediction[0])
+
+        //set type for prediction detail at first load
+        app.$store.commit("settypePrediction", {
+          colorheader: "#ff7c7c",
+          colorprediction: "#FEE1E1"
+        });
+      } else if (app.pregame.length > 0) {
+        app.$store.commit('setactivePrediction', app.pregame[0]['match_code'])
+        app.$store.commit('setdataSelectedPrediction', app.pregame[0])
+
+        //set type for prediction detail at first load
+        app.$store.commit("settypePrediction", {
+          colorheader: "#5bb6e7",
+          colorprediction: "#C8E6F7"
+        });
       }
 
       setTimeout(() => {

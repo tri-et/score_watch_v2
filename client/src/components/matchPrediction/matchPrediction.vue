@@ -34,13 +34,22 @@ export default {
       this.$store.commit("setisOpenDetailPrediction", false);
       switch (this.typeprediction) {
         case "inplay":
-          this.$store.commit("settypePrediction", "#ff7c7c");
+          this.$store.commit("settypePrediction", {
+            colorheader: "#ff7c7c",
+            colorprediction: "#FEE1E1"
+          });
           break;
         case "pregame":
-        this.$store.commit("settypePrediction", "#5bb6e7");
+          this.$store.commit("settypePrediction", {
+            colorheader: "#5bb6e7",
+            colorprediction: "#C8E6F7"
+          });
           break;
         default:
-          this.$store.commit("settypePrediction", "#767676");
+          this.$store.commit("settypePrediction", {
+            colorheader: "#767676",
+            colorprediction: "#f0f0f0"
+          });
       }
     }
   },

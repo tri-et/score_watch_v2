@@ -18,7 +18,10 @@ export default new Vuex.Store({
       }
     },
     isOpenDetailPrediction: false,
-    typePrediction: '#767676'
+    typePrediction: {
+      colorheader:'#767676',
+      colorprediction:'#f0f0f0'
+    }
   },
   getters: {
     calendarPre(state) {

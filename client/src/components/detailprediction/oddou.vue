@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span>{{items}}</span>
+    <span>{{items.odd}}</span>
     <span class="arrow" :class="arrow"></span>
   </div>
 </template>
@@ -16,18 +16,20 @@ export default {
     items: function(newdata, oldvalue) {
       let self = this;
       if (oldvalue != undefined) {
-        if (parseFloat(newdata) > parseFloat(oldvalue)) {
-          this.arrow = "up";
-          setTimeout(() => {
-            self.arrow = "";
-          }, 3000);
-        } else if (parseFloat(newdata) < parseFloat(oldvalue)) {
-          this.arrow = "down";
-          setTimeout(() => {
-            self.arrow = "";
-          }, 3000);
-        } else {
-          this.arrow = "";
+        if (newdata.match_code == oldvalue.match_code) {
+          if (parseFloat(newdata.odd) > parseFloat(oldvalue.odd)) {
+            this.arrow = "up";
+            setTimeout(() => {
+              self.arrow = "";
+            }, 3000);
+          } else if (parseFloat(newdata.odd) < parseFloat(oldvalue.odd)) {
+            this.arrow = "down";
+            setTimeout(() => {
+              self.arrow = "";
+            }, 3000);
+          } else {
+            this.arrow = "";
+          }
         }
       }
     },

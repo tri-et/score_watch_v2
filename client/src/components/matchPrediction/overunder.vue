@@ -7,7 +7,7 @@
       <span>@</span>
       <span>{{items.pick_ou=="O"?items.sys.odds_over:items.sys.odds_under}}</span>
     </div>
-    <div class="timer" v-show="live=='inplay'">2m 32s</div>
+    <!-- <div class="timer" v-show="live=='inplay'">2m 32s</div> -->
     <!-- <div v-show="live=='inplay'" class="new">
       <span>new</span>
     </div> -->
@@ -47,6 +47,7 @@ export default {
             if (finalsocre>ou) {
               url = win_icon
               this.bg.backgroundColor = "#69AE72";
+              this.bg.color='#ffffff';
             } else if (finalsocre<ou) {
               url = lose_icon
             } else {
@@ -57,6 +58,7 @@ export default {
             if (finalsocre<ou) {
               url = win_icon
               this.bg.backgroundColor = "#69AE72";
+              this.bg.color='#ffffff';
             } else if (finalsocre>ou) {
               url = lose_icon
             } else {

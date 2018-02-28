@@ -1,5 +1,5 @@
 <template>
-   <div class="odd" :style="{'background-color':typePrediction}">
+   <div class="odd" :style="{'background-color':typePrediction.colorheader}">
      <div class="content-odd">
        <div><span>ODDS</span></div>
        <div><span>HANDICAP</span></div>

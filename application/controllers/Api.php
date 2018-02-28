@@ -4,8 +4,16 @@ date_default_timezone_set("Asia/Dhaka");
 class Api extends CI_Controller {
 	function __construct()
     {
-		parent::__construct();
-		$this->load->driver('cache');
+			parent::__construct();
+			$this->load->driver('cache');
+			 //$servername = "127.0.0.1";
+			// $username = "root";
+			// $password = "admin123";
+			// $dbname = "scorewatch";
+			// $conn=new myspli($servername,$username,$password,$dbname);
+			// if ($conn->connect_error) {
+			// 	die("Connection failed: " . $conn->connect_error);
+			// }
     }
 	public function get_pregame(){
 		$prediction=null;
@@ -35,6 +43,10 @@ class Api extends CI_Controller {
 		if (array_key_exists('callback', $_GET) == TRUE) {
 			$callback = $_GET['callback'];
 		}
+		// $prediction=$this->db->query('call test_pro()');
+		// $test=json_encode($prediction->result());
+		// $ffff="";
+
 		echo $callback . '(' . json_encode($prediction) . ');';
 	}
 
@@ -54,76 +66,74 @@ class Api extends CI_Controller {
 
 	public function get_running_cron(){
 		set_time_limit(0);
-		$soap_client=new SoapClient('http://118.107.179.27:13881/Vig_WebService/Vig_WebService.asmx?WSDL');
-		$prediction=json_decode($soap_client->Prediction_Running()->Prediction_RunningResult,true)['Running'];
-		//$prediction=json_decode('{"Running":[{"active":"1","match_code":"57310","match_dt":"15 Jan 2018 16:00","match_period":"FT","match_minute":"97","league":"AFC U23 CHAMPIONSHIP 2018 (IN CHINA)","team_home":"Uzbekistan U23","team_away":"Oman U23","score_home":"1","score_away":"0","rb_id":"","bet_period":"90","pick_hdp":"H","pick_ou":"U","sys_company":"M8","sys":{"hdp":"","odds_home":"","odds_away":"","ou":"","odds_over":"","odds_under":""},"sbo":{"hdp":"0.00","odds_home":"0.56","odds_away":"-0.68","ou":"1.50","odds_over":"-0.24","odds_under":"0.10"},"ibc":{"hdp":"0.00","odds_home":"0.60","odds_away":"-0.76","ou":"1.50","odds_over":"-0.21","odds_under":"0.03"}},{"active":"1","match_code":"57311","match_dt":"15 Jan 2018 16:00","match_period":"FT","match_minute":"94","league":"AFC U23 CHAMPIONSHIP 2018 (IN CHINA)","team_home":"China U23","team_away":"Qatar U23","score_home":"1","score_away":"2","rb_id":"","bet_period":"90","pick_hdp":"H","pick_ou":"O","sys_company":"M8","sys":{"hdp":"","odds_home":"","odds_away":"","ou":"","odds_over":"","odds_under":""},"sbo":{"hdp":"0.00","odds_home":"-0.73","odds_away":"0.61","ou":"3.50","odds_over":"-0.25","odds_under":"0.11"},"ibc":{"hdp":"0.00","odds_home":"-0.78","odds_away":"0.62","ou":"3.50","odds_over":"-0.27","odds_under":"0.09"}},{"active":"1","match_code":"57315","match_dt":"16 Jan 2018 03:00","match_period":"FT","match_minute":"100","league":"PORTUGAL LIGA NOS","team_home":"Moreirense","team_away":"Vitoria Setubal","score_home":"2","score_away":"2","rb_id":"","bet_period":"90","pick_hdp":"H","pick_ou":"O","sys_company":"M8","sys":{"hdp":"","odds_home":"","odds_away":"","ou":"","odds_over":"","odds_under":""},"sbo":{"hdp":"0.00","odds_home":"0.56","odds_away":"-0.64","ou":"4.50","odds_over":"-0.10","odds_under":"0.02"},"ibc":{"hdp":"0.00","odds_home":"0.57","odds_away":"-0.65","ou":"4.50","odds_over":"-0.12","odds_under":"0.04"}},{"active":"1","match_code":"57313","match_dt":"16 Jan 2018 03:00","match_period":"FT","match_minute":"93","league":"HOLLAND JUPILER LEAGUE","team_home":"FC Oss","team_away":"NEC Nijmegen","score_home":"3","score_away":"0","rb_id":"","bet_period":"90","pick_hdp":"A","pick_ou":"O","sys_company":"M8","sys":{"hdp":"0.25","odds_home":"0.07","odds_away":"-0.17","ou":"3.50","odds_over":"-0.13","odds_under":"0.03"},"sbo":{"hdp":"0.00","odds_home":"-0.33","odds_away":"0.23","ou":"3.50","odds_over":"-0.11","odds_under":"0.03"},"ibc":{"hdp":"0.00","odds_home":"-0.34","odds_away":"0.24","ou":"3.50","odds_over":"-0.14","odds_under":"0.06"}},{"active":"1","match_code":"57314","match_dt":"16 Jan 2018 03:00","match_period":"FT","match_minute":"96","league":"HOLLAND JUPILER LEAGUE","team_home":"Jong AZ Alkmaar","team_away":"Cambuur Leeuwarden","score_home":"0","score_away":"1","rb_id":"","bet_period":"90","pick_hdp":"H","pick_ou":"U","sys_company":"M8","sys":{"hdp":"","odds_home":"","odds_away":"","ou":"","odds_over":"","odds_under":""},"sbo":{"hdp":"0.00","odds_home":"-0.59","odds_away":"0.51","ou":"1.50","odds_over":"-0.14","odds_under":"0.06"},"ibc":{"hdp":"0.00","odds_home":"-0.59","odds_away":"0.51","ou":"1.50","odds_over":"-0.16","odds_under":"0.08"}},{"active":"1","match_code":"57318","match_dt":"16 Jan 2018 04:00","match_period":"FT","match_minute":"95","league":"SPAIN LA LIGA","team_home":"Real Betis","team_away":"Leganes","score_home":"3","score_away":"2","rb_id":"","bet_period":"90","pick_hdp":"H","pick_ou":"O","sys_company":"M8","sys":{"hdp":"0.00","odds_home":"0.61","odds_away":"-0.69","ou":"","odds_over":"","odds_under":""},"sbo":{"hdp":"0.00","odds_home":"0.57","odds_away":"-0.65","ou":"5.50","odds_over":"-0.14","odds_under":"0.06"},"ibc":{"hdp":"0.00","odds_home":"0.62","odds_away":"-0.70","ou":"5.50","odds_over":"-0.14","odds_under":"0.06"}},{"active":"1","match_code":"57317","match_dt":"16 Jan 2018 04:00","match_period":"FT","match_minute":"94","league":"ENGLISH PREMIER LEAGUE","team_home":"Manchester United","team_away":"Stoke City","score_home":"3","score_away":"0","rb_id":"","bet_period":"90","pick_hdp":"H","pick_ou":"U","sys_company":"M8","sys":{"hdp":"0.00","odds_home":"0.25","odds_away":"-0.33","ou":"","odds_over":"","odds_under":""},"sbo":{"hdp":"0.00","odds_home":"0.31","odds_away":"-0.39","ou":"3.50","odds_over":"-0.13","odds_under":"0.05"},"ibc":{"hdp":"0.00","odds_home":"0.32","odds_away":"-0.40","ou":"3.50","odds_over":"-0.13","odds_under":"0.05"}},{"active":"1","match_code":"57319","match_dt":"16 Jan 2018 05:00","match_period":"FT","match_minute":"97","league":"FLORIDA CUP (IN USA)","team_home":"Fluminense","team_away":"Barcelona Guayaquil","score_home":"1","score_away":"2","rb_id":"","bet_period":"90","pick_hdp":"A","pick_ou":"U","sys_company":"M8","sys":{"hdp":"","odds_home":"","odds_away":"","ou":"","odds_over":"","odds_under":""},"sbo":{"hdp":"0.00","odds_home":"-0.80","odds_away":"0.70","ou":"3.50","odds_over":"-0.20","odds_under":"0.08"},"ibc":{"hdp":"0.00","odds_home":"-0.78","odds_away":"0.68","ou":"3.50","odds_over":"-0.22","odds_under":"0.10"}},{"active":"1","match_code":"57320","match_dt":"16 Jan 2018 05:00","match_period":"HT","match_minute":"71","league":"PORTUGAL LIGA NOS","team_home":"Estoril Praia","team_away":"Porto","score_home":"2","score_away":"2","rb_id":"","bet_period":"90","pick_hdp":"A","pick_ou":"O","sys_company":"M8","sys":{"hdp":"1.25","odds_home":"-0.95","odds_away":"0.87","ou":"2.75","odds_over":"0.87","odds_under":"-0.97"},"sbo":{"hdp":"1.25","odds_home":"-0.95","odds_away":"0.87","ou":"2.75","odds_over":"0.85","odds_under":"-0.95"},"ibc":{"hdp":"1.00","odds_home":"-0.63","odds_away":"0.55","ou":"2.75","odds_over":"0.83","odds_under":"-0.93"},"time_expired":"2018-01-16 09:57:02","minute_expired":10}]}',true)["Running"];
-		$oldData=json_decode($this->cache->file->get('running'),true)['Running'];
-		for($i=0;$i<count($prediction);$i++){
-			for($j=0;$j<count($oldData);$j++){
-				if($prediction[$i]["match_code"]==$oldData[$j]["match_code"]){
-					$prediction[$i]['sys']['hdp']=($prediction[$i]['sys']['hdp']==""?$oldData[$j]['sys']['hdp']:$prediction[$i]['sys']['hdp']);
-					$prediction[$i]['sys']['odds_home']=($prediction[$i]['sys']['odds_home']==""?$oldData[$j]['sys']['odds_home']:$prediction[$i]['sys']['odds_home']);
-					$prediction[$i]['sys']['odds_away']=($prediction[$i]['sys']['odds_away']==""?$oldData[$j]['sys']['odds_away']:$prediction[$i]['sys']['odds_away']);
-					$prediction[$i]['sys']['ou']=($prediction[$i]['sys']['ou']==""?$oldData[$j]['sys']['ou']:$prediction[$i]['sys']['ou']);
-					$prediction[$i]['sys']['odds_under']=($prediction[$i]['sys']['odds_under']==""?$oldData[$j]['sys']['odds_under']:$prediction[$i]['sys']['odds_under']);
-					$prediction[$i]['sys']['odds_over']=($prediction[$i]['sys']['odds_over']==""?$oldData[$j]['sys']['odds_over']:$prediction[$i]['sys']['odds_over']);
-					// $match_minute=intval($prediction[$i]["match_minute"]);
-					// $oldmatch_minute=intval($oldData[$j]["match_minute"]);
-					
-					
-						// if($prediction[$i]["match_period"]!='FT'){
-						// 	if($match_minute!=$oldmatch_minute){
-						// 		if($match_minute>=1 && $match_minute<=70){
-						// 			if($oldData[$j]["time_expired"]==null){
-						// 				$prediction[$i]["time_expired"]=(new DateTime())->format('Y-m-d H:i:s');
-						// 				$prediction[$i]["minute_expired"]="10";
-						// 			}else{
-						// 				$prediction[$i]["time_expired"]=$oldData[$j]["time_expired"];
-						// 				$dateold=new DateTime($oldData[$j]["time_expired"],new DateTimeZone('Asia/Dhaka'));
-						// 				$datenew=new DateTime((new DateTime())->format('Y-m-d H:i:s'),new DateTimeZone('Asia/Dhaka'));
-						// 				$minute_expired=intval($dateold->diff($datenew)->format('%i'));
-						// 				if($minute_expired>=10){
-						// 					$prediction[$i]["minute_expired"]="10";
-						// 					$prediction[$i]["time_expired"]=(new DateTime())->format('Y-m-d H:i:s');
-						// 				}else{
-						// 					if($prediction[$i]["score_home"]!=$oldData[$j]["score_home"] || $prediction[$i]["score_away"]!=$oldData[$j]["score_away"]){
-						// 						$prediction[$i]["time_expired"]=(new DateTime())->format('Y-m-d H:i:s');;
-						// 						$prediction[$i]["minute_expired"]=0;
-						// 					}else{
-						// 						$prediction[$i]["minute_expired"]=10-$minute_expired;
-						// 					}
-						// 				}
-						// 			}
-						// 		}else if($match_minute>70){
-						// 			if($oldData[$j]["time_expired"]==null){
-						// 				$prediction[$i]["time_expired"]=(new DateTime())->format('Y-m-d H:i:s');
-						// 				$prediction[$i]["minute_expired"]="3";
-						// 			}else{
-						// 				$prediction[$i]["time_expired"]=$oldData[$j]["time_expired"];
-						// 				$dateold=new DateTime($oldData[$j]["time_expired"],new DateTimeZone('Asia/Dhaka'));
-						// 				$datenew=new DateTime((new DateTime())->format('Y-m-d H:i:s'),new DateTimeZone('Asia/Dhaka'));
-						// 				$minute_expired=intval($dateold->diff($datenew)->format('%i'));
-						// 				if($minute_expired>=3){
-						// 					$prediction[$i]["minute_expired"]="3";
-						// 					$prediction[$i]["time_expired"]=(new DateTime())->format('Y-m-d H:i:s');
-						// 				}else{
-						// 					if($prediction[$i]["score_home"]!=$oldData[$j]["score_home"] || $prediction[$i]["score_away"]!=$oldData[$j]["score_away"]){
-						// 						$prediction[$i]["time_expired"]=(new DateTime())->format('Y-m-d H:i:s');
-						// 						$prediction[$i]["minute_expired"]=0;
-						// 					}else{
-						// 						$prediction[$i]["minute_expired"]=3-$minute_expired;
-						// 					}
-						// 				}
-						// 			}
-						// 		}
-						// 	}
-						// }
-				}
-			}
-		}
-		$dt=new DateTime();
-		$this->cache->file->save('test',  $dt->format('Y-m-d H:i:s') . "<br>", 0);
-		$this->cache->file->save('running',  "{\"Running\":".json_encode($prediction)."}", 0);
+			$soap_client=new SoapClient('http://118.107.179.27:13881/Vig_WebService/Vig_WebService.asmx?WSDL');
+			$prediction=json_decode($soap_client->Prediction_Running()->Prediction_RunningResult,true)['Running'];
+			//$prediction=json_decode('{"Running":[{"active":"1","match_code":"60240","match_dt":"25 Feb 2018 13:00","match_period":"Part1","match_minute":"50","league":"JAPAN J2 LEAGUE","team_home":"Mito Hollyhock","team_away":"Montedio Yamagata","score_home":"2","score_away":"1","rb_id":"","bet_period":"90","pick_hdp":"A","pick_ou":"O","sys_company":"M8","sys":{"hdp":"0.25","odds_home":"0.81","odds_away":"-0.90","ou":"3.25","odds_over":"0.83","odds_under":"-0.93"},"sbo":{"hdp":"0.25","odds_home":"0.82","odds_away":"-0.90","ou":"3.50","odds_over":"-0.85","odds_under":"0.75"},"ibc":{"hdp":"0.25","odds_home":"0.84","odds_away":"-0.92","ou":"3.50","odds_over":"-0.88","odds_under":"0.78"}},{"active":"1","match_code":"60242","match_dt":"25 Feb 2018 13:00","match_period":"Part1","match_minute":"38","league":"JAPAN J2 LEAGUE","team_home":"Tokushima Vortis","team_away":"Fagiano Okayama","score_home":"0","score_away":"1","rb_id":"","bet_period":"90","pick_hdp":"A","pick_ou":"U","sys_company":"M8","sys":{"hdp":"-0.25","odds_home":"0.78","odds_away":"-0.86","ou":"2.75","odds_over":"-0.90","odds_under":"0.80"},"sbo":{"hdp":"-0.50","odds_home":"-0.93","odds_away":"0.85","ou":"2.50","odds_over":"0.78","odds_under":"-0.88"},"ibc":{"hdp":"-0.50","odds_home":"-0.94","odds_away":"0.86","ou":"2.75","odds_over":"-0.95","odds_under":"0.85"}},{"active":"1","match_code":"60243","match_dt":"25 Feb 2018 13:00","match_period":"Part1","match_minute":"40","league":"JAPAN J2 LEAGUE","team_home":"Tokyo Verdy","team_away":"JEF United Ichihara Chiba","score_home":"0","score_away":"0","rb_id":"","bet_period":"90","pick_hdp":"H","pick_ou":"U","sys_company":"M8","sys":{"hdp":"-0.50","odds_home":"-0.90","odds_away":"0.80","ou":"1.50","odds_over":"1.00","odds_under":"0.90"},"sbo":{"hdp":"-0.50","odds_home":"-0.90","odds_away":"0.80","ou":"1.50","odds_over":"-1.00","odds_under":"0.90"},"ibc":{"hdp":"-0.50","odds_home":"-0.94","odds_away":"0.84","ou":"1.50","odds_over":"-1.00","odds_under":"0.90"}},{"active":"1","match_code":"60168","match_dt":"25 Feb 2018 12:00","match_period":"Part2","match_minute":"85","league":"JAPAN J1 LEAGUE","team_home":"Vegalta Sendai","team_away":"Kashiwa Reysol","score_home":"1","score_away":"0","rb_id":"","bet_period":"90","pick_hdp":"H","pick_ou":"O","sys_company":"M8","sys":{"hdp":"0.00","odds_home":"-0.65","odds_away":"0.57","ou":"1.50","odds_over":"-0.38","odds_under":"0.30"},"sbo":{"hdp":"0.00","odds_home":"-0.65","odds_away":"0.57","ou":"1.75","odds_over":"-0.20","odds_under":"0.12"},"ibc":{"hdp":"0.00","odds_home":"-0.67","odds_away":"0.59","ou":"1.50","odds_over":"-0.38","odds_under":"0.30"}},{"active":"1","match_code":"60169","match_dt":"25 Feb 2018 12:00","match_period":"Part2","match_minute":"83","league":"JAPAN J2 LEAGUE","team_home":"Avispa Fukuoka","team_away":"FC Gifu","score_home":"2","score_away":"0","rb_id":"","bet_period":"90","pick_hdp":"H","pick_ou":"U","sys_company":"M8","sys":{"hdp":"0.00","odds_home":"0.55","odds_away":"-0.63","ou":"2.50","odds_over":"-0.42","odds_under":"0.32"},"sbo":{"hdp":"0.00","odds_home":"0.55","odds_away":"-0.63","ou":"2.50","odds_over":"-0.42","odds_under":"0.32"},"ibc":{"hdp":"0.00","odds_home":"0.59","odds_away":"-0.67","ou":"2.50","odds_over":"-0.43","odds_under":"0.33"}},{"active":"1","match_code":"60167","match_dt":"25 Feb 2018 12:00","match_period":"Part2","match_minute":"85","league":"JAPAN J1 LEAGUE","team_home":"Shimizu S-Pulse","team_away":"Kashima Antlers","score_home":"0","score_away":"0","rb_id":"","bet_period":"90","pick_hdp":"A","pick_ou":"O","sys_company":"M8","sys":{"hdp":"0.00","odds_home":"-0.49","odds_away":"0.41","ou":"0.50","odds_over":"-0.38","odds_under":"0.30"},"sbo":{"hdp":"0.00","odds_home":"-0.49","odds_away":"0.41","ou":"0.50","odds_over":"-0.38","odds_under":"0.30"},"ibc":{"hdp":"0.00","odds_home":"-0.50","odds_away":"0.42","ou":"0.50","odds_over":"-0.36","odds_under":"0.28"}},{"active":"1","match_code":"60238","match_dt":"25 Feb 2018 13:00","match_period":"Part1","match_minute":"40","league":"JAPAN J2 LEAGUE","team_home":"Ehime FC","team_away":"Zweigen Kanazawa","score_home":"1","score_away":"0","rb_id":"","bet_period":"90","pick_hdp":"H","pick_ou":"O","sys_company":"M8","sys":{"hdp":"0.25","odds_home":"0.68","odds_away":"-0.76","ou":"2.25","odds_over":"0.75","odds_under":"-0.85"},"sbo":{"hdp":"0.00","odds_home":"-0.92","odds_away":"0.84","ou":"2.50","odds_over":"-0.94","odds_under":"0.84"},"ibc":{"hdp":"0.00","odds_home":"-0.91","odds_away":"0.83","ou":"2.25","odds_over":"0.77","odds_under":"-0.87"}},{"active":"1","match_code":"60239","match_dt":"25 Feb 2018 13:00","match_period":"Part1","match_minute":"40","league":"JAPAN J2 LEAGUE","team_home":"Kamatamare Sanuki","team_away":"Albirex Niigata","score_home":"0","score_away":"0","rb_id":"","bet_period":"90","pick_hdp":"A","pick_ou":"O","sys_company":"M8","sys":{"hdp":"0.25","odds_home":"-0.92","odds_away":"0.84","ou":"1.25","odds_over":"-0.92","odds_under":"0.82"},"sbo":{"hdp":"0.25","odds_home":"-0.92","odds_away":"0.84","ou":"1.25","odds_over":"-0.92","odds_under":"0.82"},"ibc":{"hdp":"0.25","odds_home":"-0.92","odds_away":"0.84","ou":"1.25","odds_over":"-0.94","odds_under":"0.84"}},{"active":"1","match_code":"60241","match_dt":"25 Feb 2018 13:00","match_period":"Part1","match_minute":"40","league":"JAPAN J2 LEAGUE","team_home":"Tochigi SC","team_away":"Oita Trinita","score_home":"0","score_away":"3","rb_id":"","bet_period":"90","pick_hdp":"A","pick_ou":"U","sys_company":"M8","sys":{"hdp":"0.00","odds_home":"0.76","odds_away":"-0.84","ou":"4.50","odds_over":"0.82","odds_under":"-0.92"},"sbo":{"hdp":"-0.25","odds_home":"-0.89","odds_away":"0.81","ou":"4.50","odds_over":"0.82","odds_under":"-0.92"},"ibc":{"hdp":"-0.25","odds_home":"-0.91","odds_away":"0.83","ou":"4.50","odds_over":"0.86","odds_under":"-0.96"}},{"active":"1","match_code":"60244","match_dt":"25 Feb 2018 13:00","match_period":"Part1","match_minute":"41","league":"JAPAN J2 LEAGUE","team_home":"Yokohama FC","team_away":"Matsumoto Yamaga","score_home":"0","score_away":"0","rb_id":"","bet_period":"90","pick_hdp":"H","pick_ou":"O","sys_company":"M8","sys":{"hdp":"0.25","odds_home":"0.71","odds_away":"-0.79","ou":"1.25","odds_over":"0.84","odds_under":"-0.94"},"sbo":{"hdp":"0.00","odds_home":"-0.90","odds_away":"0.82","ou":"1.25","odds_over":"0.84","odds_under":"-0.94"},"ibc":{"hdp":"0.00","odds_home":"-0.93","odds_away":"0.85","ou":"1.25","odds_over":"0.85","odds_under":"-0.95"}}]}',true)["Running"];
+	
+		 for($i=0;$i<count($prediction);$i++){
+			 $data=$prediction[$i];
+			 $sql='call insertmatch(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+			 $dateconvert=(new DateTime($data['match_dt']))->format('Y-m-d H:i:s');
+			$this->db->query($sql,array(
+				$data['match_code'],
+				$data['active'],
+				$dateconvert,
+				$data['match_period'],
+				$data['match_minute'],
+				$data['league'],
+				$data['team_home'],
+				$data['team_away'],
+				$data['score_home'],
+				$data['score_away'],
+				$data['rb_id'],
+				$data['bet_period'],
+				$data['sys_company'],
+				$data['sbo']['hdp'],
+				$data['sbo']['odds_home'],
+				$data['sbo']['odds_away'],
+				$data['sbo']['ou'],
+				$data['sbo']['odds_over'],
+				$data['sbo']['odds_under'],
+				$data['ibc']['hdp'],
+				$data['ibc']['odds_home'],
+				$data['ibc']['odds_away'],
+				$data['ibc']['ou'],
+				$data['ibc']['odds_over'],
+				$data['ibc']['odds_under'],
+				$data['sys']['hdp'],
+				$data['sys']['odds_home'],
+				$data['sys']['odds_away'],
+				$data['sys']['ou'],
+				$data['sys']['odds_over'],
+				$data['sys']['odds_under'],
+				$data['pick_hdp'],
+				$data['pick_ou']
+			));
+		 }
+		// $oldData=json_decode($this->cache->file->get('running'),true)['Running'];
+		// for($i=0;$i<count($prediction);$i++){
+		// 	for($j=0;$j<count($oldData);$j++){
+		// 		if($prediction[$i]["match_code"]==$oldData[$j]["match_code"]){
+		// 			if($prediction[$i]['sys']['hdp']!=""){
+		// 				if($oldData[$j]['sys']['hdp']!=$prediction[$i]['sys']['hdp']){
+		// 					$prediction[$i]['newprediction']=true;
+		// 				}else{
+		// 					$prediction[$i]['newprediction']=false;
+		// 				}
+		// 			}
+		// 			$prediction[$i]['sys']['hdp']=($prediction[$i]['sys']['hdp']==""?$oldData[$j]['sys']['hdp']:$prediction[$i]['sys']['hdp']);
+		// 			$prediction[$i]['sys']['odds_home']=($prediction[$i]['sys']['odds_home']==""?$oldData[$j]['sys']['odds_home']:$prediction[$i]['sys']['odds_home']);
+		// 			$prediction[$i]['sys']['odds_away']=($prediction[$i]['sys']['odds_away']==""?$oldData[$j]['sys']['odds_away']:$prediction[$i]['sys']['odds_away']);
+		// 			$prediction[$i]['sys']['ou']=($prediction[$i]['sys']['ou']==""?$oldData[$j]['sys']['ou']:$prediction[$i]['sys']['ou']);
+		// 			$prediction[$i]['sys']['odds_under']=($prediction[$i]['sys']['odds_under']==""?$oldData[$j]['sys']['odds_under']:$prediction[$i]['sys']['odds_under']);
+		// 			$prediction[$i]['sys']['odds_over']=($prediction[$i]['sys']['odds_over']==""?$oldData[$j]['sys']['odds_over']:$prediction[$i]['sys']['odds_over']);
+				
+		// 		}
+		// 	}
+		// }
+		// $dt=new DateTime();
+		// $this->cache->file->save('test',  $dt->format('Y-m-d H:i:s') . "<br>", 0);
+		// $this->cache->file->save('running',  "{\"Running\":".json_encode($prediction)."}", 0);
 	}
 
 	public function run_cronjob(){
