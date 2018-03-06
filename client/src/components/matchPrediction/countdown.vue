@@ -17,64 +17,50 @@ export default {
   methods: {
     convertToMil() {
       var self = this;
-      var milliseconds =
-        parseInt(this.items.match_minute) > 70 ? 3 * 60000 : 10 * 60000;
-      var countdownStore = localStorage.getItem(this.items.match_code);
-      this.countdown = milliseconds;
-      if (
-        countdownStore == null ||
-        JSON.parse(countdownStore).expired == "expired"
-      ) {
-        var objectCountdown = {
-          oldDate: new Date().getTime(),
-          timer: milliseconds,
-          expired: "expired"
-        };
-        if (countdownStore == null) {
-          localStorage.setItem(
-            this.items.match_code,
-            JSON.stringify(objectCountdown)
-          );
-          self.countdown = milliseconds;
-        } else {
-          var jsonStore = JSON.parse(countdownStore);
-          var now = new Date().getTime() - jsonStore.oldDate;
-          self.countdown = self.countdown - now;
+      var predictiontime = new Date(this.items.time);
+      var currenttime = new Date();
+      var milliseconds = currenttime.getTime() - predictiontime.getTime();
+      if (parseInt(this.items.minutes) > 70) {
+        if (milliseconds > 6 * 60000) {
+          // check prediction expired ; 3m + 3m remain
+          self.time = "expired[" + this.items.minutes + "']";
+        } else if (milliseconds < 3 * 60000) {
+          this.countdown = 3 * 60000 - milliseconds;
+          this.runcountdown();
+        } else if (milliseconds >= 3 * 60000 && milliseconds < 6 * 60000) {
+          this.countdown = 6 * 60000 - milliseconds;
+          this.remainExpired();
         }
-        var x = setInterval(function() {
-          var distance = self.countdown - 1000;
-          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-          self.time = minutes + "m " + seconds + "s";
-          self.countdown = distance;
-          if (distance < 0) {
-            clearInterval(x);
-            self.time = "expired";
-            var milliseconds = 3 * 60000;
-            var objectCountdown = {
-              oldDate: new Date().getTime(),
-              timer: milliseconds,
-              expired: "expiredinplay"
-            };
-            localStorage.setItem(
-              self.items.match_code,
-              JSON.stringify(objectCountdown)
-            );
-            self.remainExpired();
-          }
-        }, 1000);
       } else {
-        this.remainExpired();
+        if (milliseconds > 13 * 60000) {
+          self.time = "expired[" + this.items.minutes + "']";
+        } else if (milliseconds < 10 * 60000) {
+          this.countdown = 10 * 60000 - milliseconds;
+          this.runcountdown();
+        } else if (milliseconds >= 10 * 60000 && milliseconds < 13 * 60000) {
+          this.countdown = 13 * 60000 - milliseconds;
+          this.remainExpired();
+        }
       }
     },
-
+    runcountdown() {
+      var self = this;
+      var x = setInterval(function() {
+        var distance = self.countdown - 1000;
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        self.time = minutes + "m " + seconds + "s";
+        self.countdown = distance;
+        if (distance < 0) {
+          clearInterval(x);
+          self.time = "expired";
+          self.countdown = 3 * 60000;
+          self.remainExpired();
+        }
+      }, 1000);
+    },
     remainExpired() {
       var self = this;
-      var countdownStore = localStorage.getItem(this.items.match_code);
-      var jsonStore = JSON.parse(countdownStore);
-      var now = new Date().getTime() - jsonStore.oldDate;
-      self.countdown = jsonStore.timer;
-      self.countdown = self.countdown - now;
       var x = setInterval(function() {
         var distance = self.countdown - 1000;
         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -83,11 +69,11 @@ export default {
         self.countdown = distance;
         if (distance < 0) {
           clearInterval(x);
-          self.time = "expired";
-          // var match=self.$root.$data.inplayExpired.find(x=>x['match_code']==self.items.match_code)
-          // if(match==undefined){
-          //   self.$root.$data.inplayExpired.push(self.items)
-          // }
+          self.time = "expired[" + self.items.minutes + "']";
+          self.$parent.bg.backgroundColor='#F0F0F0'
+          self.$parent.bg.live='expired'
+          let rec=self.$parent.$parent.$parent.inplayprediction.find(x=>x['idmatch']==self.items.match_code)
+          self.$parent.$parent.$parent.inplayExpired.push(rec)
         }
       }, 1000);
     }

@@ -11,14 +11,14 @@
           <div class="nomatch" v-show="leagueInplay.length==0">No matches to show</div>
           <template v-for="(item,index) in leagueInplay">
             <league :key="index+'inplay'" :leaguename="item.league"></league>
-            <matchprediction v-for="(items,index) in inplayprediction" :key="index+items.match_code" :items="items" v-if="item.league==items.league" typeprediction="inplay">
+            <matchprediction v-for="(items,index) in inplayprediction" :key="index+items.idmatch" :items="items" v-if="item.league==items.league" typeprediction="inplay">
             </matchprediction>
           </template>
           <div class="headerExpired">Expired in-play</div>
           <div class="nomatch" v-show="leagueExpInplay.length==0">No matches to show</div>
           <template v-for="(item,index) in leagueExpInplay">
             <league :key="index+'expinplay'" :leaguename="item.league"></league>
-            <matchprediction v-for="(items,index) in inplayExpired" :key="index+items.match_code" :items="items" v-if="item.league==items.league" typeprediction="expired">
+            <matchprediction v-for="(items,index) in inplayExpired" :key="index+items.idmatch" :items="items" v-if="item.league==items.league" typeprediction="expired">
             </matchprediction>
           </template>
         </div>
@@ -27,14 +27,14 @@
           <div class="nomatch" v-show="leaguePregame.length==0">No matches to show</div>
           <template v-for="(item,index) in leaguePregame">
             <league :key="index+'pregame'" :leaguename="item.league"></league>
-            <matchprediction v-for="(items,index) in pregame" :key="index+items.match_code" :items="items" v-if="item.league==items.league" typeprediction="pregame">
+            <matchprediction v-for="(items,index) in pregame" :key="index+items.idmatch" :items="items" v-if="item.league==items.league" typeprediction="pregame">
             </matchprediction>
           </template>
           <div class="headerExpired">Expired Pre-Game</div>
           <div class="nomatch" v-show="leagueExpPregame.length==0">No matches to show</div>
           <template v-for="(item,index) in leagueExpPregame">
             <league :key="index+'exppregame'" :leaguename="item.league"></league>
-            <matchprediction v-for="(items,index) in expiredPregame" :key="index+items.match_code" :items="items" v-if="item.league==items.league" typeprediction="expired">
+            <matchprediction v-for="(items,index) in expiredPregame" :key="index+items.idmatch" :items="items" v-if="item.league==items.league" typeprediction="expired">
             </matchprediction>
           </template>
         </div>
@@ -58,6 +58,7 @@ import { mapGetters} from "vuex";
 let getdata = new GetData();
 
 export default {
+  name:'predictions',
   data() {
     return {
       inplayprediction: [],
@@ -67,7 +68,8 @@ export default {
       leagueExpInplay: [],
       leagueExpPregame: [],
       leagueInplay: [],
-      leaguePregame: []
+      leaguePregame: [],
+      getData:getdata
     };
   },
   components: {
@@ -80,7 +82,9 @@ export default {
     ...mapGetters(["isOpenDetailPrediction"])
   },
   mounted() {
-    getdata.getDataPreInplay(this);
+    var today=new Date()
+    var dateselect=today.getFullYear() + '-' + (parseInt(today.getMonth()) + 1) + '-' + (today.getDate())
+    getdata.getDataPreInplay(this,dateselect);
   }
 };
 </script>

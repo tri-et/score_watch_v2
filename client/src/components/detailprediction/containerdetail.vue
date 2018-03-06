@@ -11,30 +11,30 @@
             <span>M8</span>
           </div>
           <div>
-            <span>{{dataSelectedPrediction.sys.hdp}}</span>
+            <span>{{dataSelectedPrediction.sys_hdp}}</span>
           </div>
-          <oddou :items="{'odd':dataSelectedPrediction.sys.odds_home,'match_code':dataSelectedPrediction.match_code}"></oddou>
-          <oddou :items="{'odd':dataSelectedPrediction.sys.odds_away,'match_code':dataSelectedPrediction.match_code}"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.sys_odds_home,'match_code':dataSelectedPrediction.idmatch}"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.sys_odds_away,'match_code':dataSelectedPrediction.idmatch}"></oddou>
         </div>
         <div class="m8">
           <div>
             <span>SBO</span>
           </div>
           <div>
-            <span>{{dataSelectedPrediction.sbo.hdp}}</span>
+            <span>{{dataSelectedPrediction.sbo_hdp}}</span>
           </div>
-          <oddou :items="{'odd':dataSelectedPrediction.sbo.odds_home,'match_code':dataSelectedPrediction.match_code}"></oddou>
-          <oddou :items="{'odd':dataSelectedPrediction.sbo.odds_away,'match_code':dataSelectedPrediction.match_code}"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.sbo_odds_home,'match_code':dataSelectedPrediction.idmatch}"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.sbo_odds_away,'match_code':dataSelectedPrediction.idmatch}"></oddou>
         </div>
         <div class="m8">
           <div>
             <span>IBC</span>
           </div>
           <div>
-            <span>{{dataSelectedPrediction.ibc.hdp}}</span>
+            <span>{{dataSelectedPrediction.ibc_hdp}}</span>
           </div>
-          <oddou :items="{'odd':dataSelectedPrediction.ibc.odds_home,'match_code':dataSelectedPrediction.match_code}"></oddou>
-          <oddou :items="{'odd':dataSelectedPrediction.ibc.odds_away,'match_code':dataSelectedPrediction.match_code}"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.ibc_odds_home,'match_code':dataSelectedPrediction.idmatch}"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.ibc_odds_away,'match_code':dataSelectedPrediction.idmatch}"></oddou>
         </div>
       </div>
       <headerou></headerou>
@@ -44,30 +44,30 @@
             <span>M8</span>
           </div>
           <div>
-            <span>{{dataSelectedPrediction.sys.ou}}</span>
+            <span>{{dataSelectedPrediction.sys_ou}}</span>
           </div>
-          <oddou :items="{'odd':dataSelectedPrediction.sys.odds_over,'match_code':dataSelectedPrediction.match_code}"></oddou>
-          <oddou :items="{'odd':dataSelectedPrediction.sys.odds_under,'match_code':dataSelectedPrediction.match_code}"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.sys_odds_over,'match_code':dataSelectedPrediction.idmatch}"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.sys_odds_under,'match_code':dataSelectedPrediction.idmatch}"></oddou>
         </div>
         <div class="m8">
           <div>
             <span>SBO</span>
           </div>
           <div>
-            <span>{{dataSelectedPrediction.sbo.ou}}</span>
+            <span>{{dataSelectedPrediction.sbo_ou}}</span>
           </div>
-          <oddou :items="{'odd':dataSelectedPrediction.sbo.odds_over,'match_code':dataSelectedPrediction.match_code}"></oddou>
-          <oddou :items="{'odd':dataSelectedPrediction.sbo.odds_under,'match_code':dataSelectedPrediction.match_code}"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.sbo_odds_over,'match_code':dataSelectedPrediction.idmatch}"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.sbo_odds_under,'match_code':dataSelectedPrediction.idmatch}"></oddou>
         </div>
         <div class="m8">
           <div>
             <span>IBC</span>
           </div>
           <div>
-            <span>{{dataSelectedPrediction.ibc.ou}}</span>
+            <span>{{dataSelectedPrediction.ibc_ou}}</span>
           </div>
-          <oddou :items="{'odd':dataSelectedPrediction.ibc.odds_over,'match_code':dataSelectedPrediction.match_code}"></oddou>
-          <oddou :items="{'odd':dataSelectedPrediction.ibc.odds_under,'match_code':dataSelectedPrediction.match_code}"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.ibc_odds_over,'match_code':dataSelectedPrediction.idmatch}"></oddou>
+          <oddou :items="{'odd':dataSelectedPrediction.ibc_odds_under,'match_code':dataSelectedPrediction.idmatch}"></oddou>
         </div>
       </div>
     </div>

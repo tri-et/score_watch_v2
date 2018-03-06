@@ -1,8 +1,11 @@
 <template>
   <div class="containerpreidction">
-    <div class="matchprediction" @click="selectedPrediction(items.match_code)" :class="{'activePrediction':items.match_code==activePrediction}">
+    <div class="matchprediction" @click="selectedPrediction(items.idmatch)" :class="{'activePrediction':items.idmatch==activePrediction}">
       <match :typematch="typeprediction" :item="items"></match>
-      <prediction :live="typeprediction" :items="items"></prediction>
+      <template v-for="(item,index) in items.detail">
+        <prediction :live="typeprediction" :items="item" :key="index"></prediction>
+      </template>
+      <prediction :live="typeprediction" :items="items" v-show="typeprediction=='pregame'"></prediction>
       <overunder :live="typeprediction" :items="items"></overunder>
     </div>
   </div>

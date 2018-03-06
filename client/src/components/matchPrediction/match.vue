@@ -37,7 +37,7 @@ export default {
   },
   filters: {
     setremaining(matchdate) {
-      var matchDate = new Date(matchdate);
+      var matchDate = new Date(matchdate.replace(/-/g,'/'));
       var currentDate = new Date();
       var millisec = matchDate.getTime() - currentDate.getTime();
       var seconds = (millisec / 1000).toFixed(0);
@@ -58,7 +58,7 @@ export default {
       return "in " + minutes + "m";
     },
     matchDate(value) {
-      var date = new Date(value);
+      var date = new Date(value.replace(/-/g,'/'));
       return (
         date.getHours() +
         ":" +

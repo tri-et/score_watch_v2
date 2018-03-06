@@ -6,9 +6,9 @@
     <resize-observer @notify="handleResize" />
     <div class="odds">
       <span>&nbsp;{{'['+items.score_home+':'+items.score_away+']'}}</span>
-      <span>{{items.sys.hdp}}</span>
+      <span>{{items.sys_hdp}}</span>
       <span>@</span>
-      <span>{{items.pick_hdp=="H"?items.sys.odds_home:items.sys.odds_away}}</span>
+      <span>{{items.pick_hdp=="H"?items.sys_odds_home:items.sys_odds_away}}</span>
     </div>
     <!-- <div class="timer">2m 32s</div>
     <div v-show="live=='inplay'" class="new">

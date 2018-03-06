@@ -6,13 +6,18 @@
     </div>
     <resize-observer @notify="handleResize" />
     <div class="odds">
-      <span v-show="live!='pregame'">&nbsp;[1:1]</span>
-      <span>{{items.sys.hdp}}</span>
+      <span v-show="live!='pregame'">&nbsp;{{'['+items.score_home+':'+items.score_away+']'}}</span>
+      <span>{{items.sys_hdp}}</span>
       <span>@</span>
-      <span>{{items.pick_hdp=="H"?items.sys.odds_home:items.sys.odds_away}}</span>
+      <span>{{items.pick_hdp=="H"?items.sys_odds_home:items.sys_odds_away}}</span>
     </div>
-    <!-- <div class="timer" v-show="live=='inplay'"><countdown :items="items"></countdown></div> -->
-    <div v-show="items.newprediction==true" class="new">
+    <div class="timer" v-show="live=='inplay'">
+      <countdown :items="items"></countdown>
+    </div>
+    <div class="timer" v-show="live=='expired'">
+      <span>{{'expired['+items.minutes+']'}}</span>
+    </div>
+    <div class="new" v-show="isnew">
       <span>new</span>
     </div>
   </div>
@@ -39,7 +44,8 @@ export default {
         color: ""
       },
       icon: pred_gold,
-      marquee: false
+      marquee: false,
+      isnew: false
     };
   },
   components: {
@@ -50,14 +56,14 @@ export default {
       var url = pred_gold;
       let score_home = parseInt(data.score_home);
       let score_away = parseInt(data.score_away);
-      let hpd = parseFloat(data.sys.hdp);
+      let hpd = parseFloat(data.sys_hdp);
       if (live == "expired") {
         switch (data.pick_hdp) {
           case "H":
             if (hpd + score_home > score_away) {
               url = win_icon;
               this.bg.backgroundColor = "#69AE72";
-              this.bg.color='#fff';
+              this.bg.color = "#fff";
             } else if (hpd + score_home < score_away) {
               url = lose_icon;
             } else {
@@ -68,7 +74,7 @@ export default {
             if (hpd + score_away > score_home) {
               url = win_icon;
               this.bg.backgroundColor = "#69AE72";
-              this.bg.color='#fff';
+              this.bg.color = "#fff";
             } else if (hpd + score_away < score_home) {
               url = lose_icon;
             } else {
@@ -87,12 +93,41 @@ export default {
       } else {
         this.marquee = false;
       }
+    },
+    setStatusNew() {
+      var timeprediction = new Date(this.items.time);
+      var currentTime = new Date();
+      let self = this;
+      if (currentTime.getTime() - timeprediction.getTime() <= 5000) {
+        this.isnew = true;
+        setTimeout(() => {
+          self.isnew = false;
+        }, 30000);
+      } else {
+        this.isnew = false;
+      }
     }
   },
   created() {
     switch (this.live) {
       case "inplay":
-        this.bg.backgroundColor = "#FEE1E1";
+        // this.bg.backgroundColor = "#FEE1E1";
+        var minutes = parseInt(this.items.minutes);
+        var predictionTime = new Date(this.items.time).getTime();
+        var currentTime = new Date().getTime();
+        if (minutes < 70) {
+          if (currentTime - predictionTime > 13 * 60000) {
+            this.bg.backgroundColor = "#F0F0F0";
+          } else {
+            this.bg.backgroundColor = "#FEE1E1";
+          }
+        } else {
+          if (currentTime - predictionTime > 6 * 60000) {
+            this.bg.backgroundColor = "#F0F0F0";
+          } else {
+            this.bg.backgroundColor = "#FEE1E1";
+          }
+        }
         break;
       case "pregame":
         this.bg.backgroundColor = "#C8E6F7";
@@ -102,15 +137,16 @@ export default {
         this.bg.color = "rgba(51,51,51,0.45)";
       // this.icon=lose_icon;
     }
-  },
-  watch: {
-    items() {
-      let self = this;
-      setTimeout(() => {
-        self.items.newprediction = false;
-      }, 60000);
-    }
+    this.setStatusNew();
   }
+  // watch: {
+  //   items() {
+  //     let self = this;
+  //     setTimeout(() => {
+  //       self.items.newprediction = false;
+  //     }, 60000);
+  //   }
+  // }
 };
 </script>
 <style scoped>

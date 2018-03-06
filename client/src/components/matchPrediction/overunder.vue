@@ -3,9 +3,9 @@
     <div class="icongold"><img :src="setSrcIconUnder(items,live)" alt="" width="24" height="24" :key="1233"></div>
     <div class="teamname">{{items.pick_ou=="O"?'Over':'Under'}}&nbsp;</div>
     <div class="odds">
-      <span>{{items.sys.ou}}</span>
+      <span>{{items.sys_ou}}</span>
       <span>@</span>
-      <span>{{items.pick_ou=="O"?items.sys.odds_over:items.sys.odds_under}}</span>
+      <span>{{items.pick_ou=="O"?items.sys_odds_over:items.sys_odds_under}}</span>
     </div>
     <!-- <div class="timer" v-show="live=='inplay'">2m 32s</div> -->
     <!-- <div v-show="live=='inplay'" class="new">
@@ -39,7 +39,7 @@ export default {
   methods: {
     setSrcIconUnder(data,live) {
       let url = ''
-      let ou = parseFloat(data.sys.ou)
+      let ou = parseFloat(data.sys_ou)
       let finalsocre=parseInt(data.score_home)+parseInt(data.score_away)
       if (live == 'expired') {
         switch (data.pick_ou) {

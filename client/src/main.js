@@ -5,6 +5,7 @@ import App from './App'
 import router from './router'
 import VueResize from 'vue-resize'
 import store from './store'
+import getdata from './modules/get_data'
 
  
 Vue.use(VueResize)

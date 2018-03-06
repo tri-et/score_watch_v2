@@ -19,7 +19,7 @@
         <li>
           <a class="logo"></a>
         </li>
-        <li>
+        <li @click="openHelp()">
           <a><img src="../assets/images/Help Icon@1x.svg" alt="" width="24" height="24"></a>
         </li>
       </ul>
@@ -27,7 +27,13 @@
   </header>
 </template>
 <script>
-export default {};
+export default {
+  methods:{
+    openHelp(){
+      this.$store.commit('setisopenHelp',true)
+    }
+  }
+};
 </script>
 <style scoped>
 @media (min-width: 320px) {

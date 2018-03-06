@@ -1,7 +1,13 @@
-import $ from 'jquery'
+import $ from 'jquery';
+// export for others scripts to use
+
 import axios from 'axios'
 class GetData {
-  constructor() {}
+  constructor() {
+    this.odldate = "";
+    this.timeoutfirstload = [];
+  }
+
   checkLeague(leaguename, leagueArray) {
     for (var i = 0; i < leagueArray.length; i++) {
       if (leagueArray[i].league == leaguename) {
@@ -11,15 +17,16 @@ class GetData {
     return false
   }
 
-  getDataInPlay(app) {
+  getDataInPlay(app, dateSelect) {
     let that = this
+    this.odldate = dateSelect
     $.ajax({
-      url: 'http://localhost:8000/score_watch_v2/index.php/api/get_running?timestamp=' + new Date().getTime(),
+      url: 'http://localhost:8000/score_watch_v2/index.php/api/get_running/' + this.odldate,
       jsonp: 'callback',
       dataType: 'jsonp',
       success: function (response) {
 
-        let data = JSON.parse(response)
+        let data = response
         //app.inplay = data.Running
         var leagueExpInplay = []
         var leagueInplay = []
@@ -27,11 +34,38 @@ class GetData {
         var inplayprediction = []
         app.inplayprediction = []
         app.inplayExpired = []
-        data.Running.forEach(v => {
+        data.forEach(v => {
           if (v.match_period == 'FT') {
             inplayExpired.push(v)
           } else {
-            inplayprediction.push(v)
+            var isExpired = []
+            v.detail.forEach(items => {
+              var minutes = parseInt(items.minutes)
+              var predictionTime = (new Date(items.time)).getTime()
+              var currentTime = (new Date()).getTime()
+              if (minutes < 70) {
+                if (currentTime - predictionTime > 13 * 60000) {
+                  isExpired.push(true);
+                } else {
+                  isExpired.push(false);
+                }
+              } else {
+                if (currentTime - predictionTime > 6 * 60000) {
+                  isExpired.push(true);
+                } else {
+                  isExpired.push(false);
+                }
+              }
+            })
+
+            var expired = isExpired.every(function (item, index, array) {
+              return item;
+            })
+            if (expired) {
+              inplayExpired.push(v)
+            } else {
+              inplayprediction.push(v)
+            }
           }
         })
 
@@ -55,55 +89,59 @@ class GetData {
         app.inplayExpired = inplayExpired;
         app.inplayprediction = inplayprediction;
         app.leagueInplay = leagueInplay;
-
         var match_code_active = app.$store.getters.activePrediction
         var dataDetail = app.inplayprediction.find(x => x.match_code == match_code_active)
         if (dataDetail != undefined) {
           app.$store.commit('setdataSelectedPrediction', app.inplayprediction.find(x => x.match_code == match_code_active))
         }
-        setTimeout(() => {
-          that.getDataInPlay(app)
-        }, 3000)
+        that.timeoutfirstload.push(setTimeout(() => {
+          that.getDataInPlay(app, that.odldate)
+        }, 3000))
 
       },
     })
   }
 
-  getDataPregame(app) {
+  getDataPregame(app,dateSelect) {
     let that = this
+    this.odldate = dateSelect
     $.ajax({
-      url: 'http://localhost:8000/score_watch_v2/index.php/api/get_pregame',
+      url: 'http://localhost:8000/score_watch_v2/index.php/api/get_pregame/' + this.odldate,
       jsonp: 'callback',
       dataType: 'jsonp',
       success: function (response) {
-        let data = JSON.parse(response)
+        let data = response
         var leaguePregame = []
         var leagueExpPregame = []
-        let expiredPregame = []
-        let pregameData = []
-        pregameData = data.Pregame
-        expiredPregame = data.MatchesFinished
+        var pregamePrediction = []
+        var pregameExpired = []
+        app.pregame = []
+        app.expiredPregame = []
+        app.leagueExpPregame = []
+        app.leaguePregame = []
 
-        for (var i = 0; i < expiredPregame.length; i++) {
-          if (!that.checkLeague(expiredPregame[i].league, leagueExpPregame)) {
-            leagueExpPregame.push({
-              league: expiredPregame[i].league
-            })
-          }
-        }
 
-        for (var i = 0; i < pregameData.length; i++) {
-          if (!that.checkLeague(pregameData[i].league, leaguePregame)) {
+        for (var i = 0; i < pregamePrediction.length; i++) {
+          if (!that.checkLeague(pregamePrediction[i].league, leaguePregame)) {
             leaguePregame.push({
-              league: pregameData[i].league
+              league: pregamePrediction[i].league
+            })
+          }
+        }
+  
+        for (var i = 0; i < pregameExpired.length; i++) {
+          if (!that.checkLeague(pregameExpired[i].league, leagueExpPregame)) {
+            leagueExpPregame.push({
+              league: pregameExpired[i].league
             })
           }
         }
 
-        app.leaguePregame = leaguePregame;
-        app.leagueExpPregame = leagueExpPregame;
-        app.pregame = pregameData
-        app.expiredPregame = expiredPregame
+     
+      app.leaguePregame = leaguePregame
+      app.leagueExpPregame = leagueExpPregame
+      app.pregame = pregamePrediction
+      app.expiredPregame = pregameExpired
         // app.expiredPregame=data.MatchesFinished
         // if (app.$store.state.predictionSelected.match_code != '') {
         // 	let type = app.$store.state.predictionSelected.type
@@ -117,9 +155,9 @@ class GetData {
         // 	}
         // }
 
-        // setTimeout(() => {
-        // 	that.getDataPregame(app)
-        // }, 600000)
+        that.timeoutfirstload.push(setTimeout(() => {
+          that.getDataPregame(that.app)
+        }, 600000))
       },
     })
   }
@@ -143,19 +181,23 @@ class GetData {
     )
   }
 
-  getDataPreInplay(app) {
+  getDataPreInplay(app, dateSelect) {
     let that = this
-    let urlInplay = 'http://localhost:8000/score_watch_v2/index.php/api/get_running'
-    let urlPregame = 'http://localhost:8000/score_watch_v2/index.php/api/get_pregame'
+    this.odldate = dateSelect
+    let urlInplay = 'http://localhost:8000/score_watch_v2/index.php/api/get_running/' + this.odldate
+    let urlPregame = 'http://localhost:8000/score_watch_v2/index.php/api/get_pregame/' + this.odldate
+    this.stopAlltimeout();
+
     $.when(
       $.ajax({
+        type: 'post',
         url: urlInplay,
         dataType: 'jsonp',
       }),
       $.ajax({
         url: urlPregame,
         dataType: 'jsonp',
-      }),
+      })
     ).done((inplay, pregame) => {
       var leagueExpInplay = []
       var leagueInplay = []
@@ -163,19 +205,60 @@ class GetData {
       var leagueExpPregame = []
       var inplayExpired = []
       var inplayprediction = []
-      let inplayData = JSON.parse(inplay[0]).Running
-      let pregameData = JSON.parse(pregame[0]).Pregame
+      var pregamePrediction = []
+      var pregameExpired = []
+      let inplayData = inplay[0]
+      let pregameData = pregame[0]
       let data = []
       let type = ''
-      app.pregame = pregameData
-      app.expiredPregame = JSON.parse(pregame[0]).MatchesFinished
       app.inplayprediction = []
       app.inplayExpired = []
+      app.pregame = []
+      app.expiredPregame = []
+      app.leagueExpInplay = []
+      app.leagueExpPregame = []
+      app.leagueInplay = []
+      app.leaguePregame = []
       inplayData.forEach(v => {
         if (v.match_period == 'FT') {
           inplayExpired.push(v)
         } else {
-          inplayprediction.push(v)
+          var isExpired = []
+          v.detail.forEach(items => {
+            var minutes = parseInt(items.minutes)
+            var predictionTime = (new Date(items.time)).getTime()
+            var currentTime = (new Date()).getTime()
+            if (minutes < 70) {
+              if (currentTime - predictionTime > 13 * 60000) {
+                isExpired.push(true);
+              } else {
+                isExpired.push(false);
+              }
+            } else {
+              if (currentTime - predictionTime > 6 * 60000) {
+                isExpired.push(true);
+              } else {
+                isExpired.push(false);
+              }
+            }
+          })
+
+          var expired = isExpired.every(function (item, index, array) {
+            return item;
+          })
+          if (expired) {
+            inplayExpired.push(v)
+          } else {
+            inplayprediction.push(v)
+          }
+        }
+      })
+
+      pregameData.forEach(v => {
+        if (v.match_period == 'FT') {
+          pregameExpired.push(v)
+        } else {
+          pregamePrediction.push(v)
         }
       })
       for (var i = 0; i < inplayExpired.length; i++) {
@@ -185,10 +268,10 @@ class GetData {
           })
         }
       }
-      for (var i = 0; i < pregameData.length; i++) {
-        if (!that.checkLeague(pregameData[i].league, leaguePregame)) {
+      for (var i = 0; i < pregamePrediction.length; i++) {
+        if (!that.checkLeague(pregamePrediction[i].league, leaguePregame)) {
           leaguePregame.push({
-            league: pregameData[i].league
+            league: pregamePrediction[i].league
           })
         }
       }
@@ -201,22 +284,25 @@ class GetData {
         }
       }
 
-      for (var i = 0; i < app.expiredPregame.length; i++) {
-        if (!that.checkLeague(app.expiredPregame[i].league, leagueExpPregame)) {
+      for (var i = 0; i < pregameExpired.length; i++) {
+        if (!that.checkLeague(pregameExpired[i].league, leagueExpPregame)) {
           leagueExpPregame.push({
-            league: app.expiredPregame[i].league
+            league: pregameExpired[i].league
           })
         }
       }
 
-      app.leagueExpInplay = leagueExpInplay;
-      app.leaguePregame = leaguePregame;
-      app.inplayExpired = inplayExpired;
-      app.inplayprediction = inplayprediction;
-      app.leagueInplay = leagueInplay;
-      app.leagueExpPregame = leagueExpPregame;
+      app.leagueExpInplay = leagueExpInplay
+      app.leaguePregame = leaguePregame
+      app.leagueInplay = leagueInplay
+      app.leagueExpPregame = leagueExpPregame
+      app.inplayExpired = inplayExpired
+      app.inplayprediction = inplayprediction
+      app.pregame = pregamePrediction
+      app.expiredPregame = pregameExpired
+
       if (app.inplayprediction.length > 0) {
-        app.$store.commit('setactivePrediction', app.inplayprediction[0]['match_code'])
+        app.$store.commit('setactivePrediction', app.inplayprediction[0]['idmatch'])
         app.$store.commit('setdataSelectedPrediction', app.inplayprediction[0])
 
         //set type for prediction detail at first load
@@ -235,13 +321,13 @@ class GetData {
         });
       }
 
-      setTimeout(() => {
-        that.getDataInPlay(app)
-      }, 3000)
+      that.timeoutfirstload.push(setTimeout(() => {
+        that.getDataInPlay(app, that.odldate)
+      }, 3000))
 
-      setTimeout(() => {
-        that.getDataPregame(app)
-      }, 600000)
+      that.timeoutfirstload.push(setTimeout(() => {
+        that.getDataPregame(app, that.odldate)
+      }, 600000))
     })
   }
 
@@ -382,6 +468,13 @@ class GetData {
 
   formatJson(data) {
     return JSON.parse(data.replace('callbackJSON(', '').replace(/\)$/g, ''))
+  }
+
+  stopAlltimeout() {
+    for (var i = 0; i < this.timeoutfirstload.length; i++) {
+      clearTimeout(this.timeoutfirstload[i])
+    }
+    this.timeoutfirstload = []
   }
 }
 

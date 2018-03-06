@@ -6,22 +6,13 @@ export default new Vuex.Store({
   state: {
     calendarPre: 14,
     activePrediction: null,
-    dataSelectedPrediction: {
-      sys: {
-        hdp: ''
-      },
-      sbo: {
-        hdp: ''
-      },
-      ibc: {
-        hdp: ''
-      }
-    },
+    dataSelectedPrediction: {},
     isOpenDetailPrediction: false,
     typePrediction: {
       colorheader:'#767676',
       colorprediction:'#f0f0f0'
-    }
+    },
+    isopenHelp:false
   },
   getters: {
     calendarPre(state) {
@@ -38,6 +29,9 @@ export default new Vuex.Store({
     },
     typePrediction(state) {
       return state.typePrediction
+    },
+    isopenHelp(state) {
+      return state.isopenHelp
     }
   },
   mutations: {
@@ -55,6 +49,9 @@ export default new Vuex.Store({
     },
     settypePrediction(state, val) {
       state.typePrediction = val
+    },
+    setisopenHelp(state, val) {
+      state.isopenHelp = val
     }
   },
   actions: {}

@@ -4,7 +4,7 @@
       <i class="material-icons">keyboard_arrow_left</i>
     </div>
     <div class="date">
-      <div v-for="(item,index) in days" :key="index" :class="{'active-date':(index==calendarPre)}" @click="selectDate(item,index)">
+      <div v-for="(item,index) in days" :key="index" :class="{'active-date':(index==calendarPre)}" @click="selectDate(item,index,$event)">
         <span>{{item|date}}</span><br style="clear:both">
         <span>{{item|day}}</span>
       </div>
@@ -18,6 +18,9 @@
 <script>
 import $ from "jquery";
 import { mapGetters, mapActions, mapMutations } from "vuex";
+import GetData from "../../modules/get_data";
+let getdata=new GetData();
+
 export default {
   data() {
     return {
@@ -86,16 +89,30 @@ export default {
     setDateCenter() {
       let outer = this.$el.querySelector(".date").clientWidth;
       let inner = this.$el.querySelector(".date").scrollWidth;
-      $(this.$el.querySelector(".date")).scrollLeft((inner - outer) / 2 - 40);
+      $(this.$el.querySelector(".date")).scrollLeft((inner - outer) / 2 - 70);
     },
-    selectDate(item, index) {
+    selectDate(item, index,event) {
+      this.setDateSelectedCenter(event.currentTarget.offsetLeft)
+      var oldDate=item.getFullYear()+'-'+(item.getMonth()+1)+'-'+item.getDate()
+      this.$parent.getData.getDataPreInplay(this.$parent,oldDate)
       this.$store.commit('setcalendarPre',index)
+    },
+    setDateSelectedCenter(currentPositionclick) {
+      let outer = this.$el.querySelector('.date').clientWidth
+      let inner = this.$el.querySelector('.date').scrollWidth
+      let centerposition = outer / 2
+
+      let position = currentPositionclick - centerposition
+      $(this.$el.querySelector('.date')).animate({
+        scrollLeft: currentPositionclick - outer / 2 + 10
+      })
     }
   },
   created() {
     this.renderDays();
   },
   mounted() {
+    
     this.setDateCenter();
   }
 };
