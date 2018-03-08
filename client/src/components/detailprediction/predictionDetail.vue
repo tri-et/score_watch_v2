@@ -91,10 +91,9 @@ export default {
   position: absolute;
   left: 15px;
   right: 15px;
-  /* top:212px; */
-  /* top:264px; */
   border-radius: 3px;
   box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.17);
+  z-index: 1;
 }
 div[class="prediction"]:not(:last-child) {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);

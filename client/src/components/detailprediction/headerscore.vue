@@ -2,14 +2,18 @@
   <div class="headerscore">
     <div class="homescore">{{items.score_home}}</div>
     <div class="match-time">
-      <div class="hour">2H</div>
-      <div class="minute">86'</div>
+      <div class="hour" :style="{'background-color':typePrediction.colorheader}">{{items.match_period}}</div>
+      <div class="minute" :style="{'background-color':typePrediction.colorprediction}">{{items.match_minute+"\'"}}</div>
     </div>
     <div class="awayscore">{{items.score_away}}</div>
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
+  computed: {
+    ...mapGetters(["typePrediction"])
+  },
   props:{
     items:{
       type:Object
@@ -39,7 +43,6 @@ export default {
   display: grid;
 }
 .hour{
-  background-color: #FF7C7C;
   border-top-left-radius: 130px;
   border-top-right-radius: 130px;
   font-size: 16px;
@@ -50,10 +53,9 @@ export default {
   justify-content: center;
 }
 .minute{
-  background-color: #FF8989;
   border-bottom-left-radius: 130px;
   border-bottom-right-radius: 130px;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
   color:#fff;
   display: flex;

@@ -12,7 +12,8 @@ export default new Vuex.Store({
       colorheader:'#767676',
       colorprediction:'#f0f0f0'
     },
-    isopenHelp:false
+    isopenHelp:false,
+    isopenMenuSideBar:false
   },
   getters: {
     calendarPre(state) {
@@ -32,6 +33,9 @@ export default new Vuex.Store({
     },
     isopenHelp(state) {
       return state.isopenHelp
+    },
+    isopenMenuSideBar(state) {
+      return state.isopenMenuSideBar
     }
   },
   mutations: {
@@ -52,6 +56,9 @@ export default new Vuex.Store({
     },
     setisopenHelp(state, val) {
       state.isopenHelp = val
+    },
+    setisopenMenuSideBar(state, val) {
+      state.isopenMenuSideBar = val
     }
   },
   actions: {}

@@ -10,11 +10,6 @@ class Api extends CI_Controller {
 	public function get_pregame($olddate=null){
 		$prediction=null;
 		$callback="";
-		// if($this->cache->file->is_supported() && $this->cache->file->get('pregame')) {
-		// 	$prediction=$this->cache->file->get('pregame') ;
-		// }else{
-		// 	$prediction=$this->get_pregame_cron();
-		// };
 		$dateObject=$this->workingdate($olddate);
 		if (array_key_exists('callback', $_GET) == TRUE) {
 			$callback = $_GET['callback'];
@@ -29,12 +24,6 @@ class Api extends CI_Controller {
 	public function get_running($olddate=null){
 		$prediction=null;
 		$callback="";
-		// if($this->cache->file->is_supported() && $this->cache->file->get('running')) {
-		// 	$prediction=$this->cache->file->get('running') ;
-		// }else{
-		// 	$prediction=$this->get_running_cron();
-		// };
-		//$prediction=$this->get_running_cron();
 		$dateObject=$this->workingdate($olddate);
 		if (array_key_exists('callback', $_GET) == TRUE) {
 			$callback = $_GET['callback'];
@@ -56,12 +45,19 @@ class Api extends CI_Controller {
 		$prediction=$dtprediction->result_array();
 		for($i=0;$i<count($match);$i++){
 			$detail=array();
+			$underOver=array();
 			for($j=0;$j<count($prediction);$j++){
-				if($match[$i]["idmatch"]==$prediction[$j]["match_code"]){
+				if($match[$i]["idmatch"]==$prediction[$j]["match_code"] && $prediction[$j]["typeprediction"]=="HDP"){
 					array_push($detail,$prediction[$j]);
+				}else if($match[$i]["idmatch"]==$prediction[$j]["match_code"] && $prediction[$j]["typeprediction"]=="OU"){
+					array_push($underOver,$prediction[$j]);
+				}else if($match[$i]["idmatch"]==$prediction[$j]["match_code"]){
+					array_push($detail,$prediction[$j]);
+					array_push($underOver,$prediction[$j]);
 				}
 			}
 			$match[$i]["detail"]=$detail;
+			$match[$i]["detailou"]=$underOver;
 		}
 		echo $callback . '(' . json_encode($match) . ');';
 	}

@@ -4,7 +4,7 @@ import $ from 'jquery';
 import axios from 'axios'
 class GetData {
   constructor() {
-    this.odldate = "";
+    this.olddate = "";
     this.timeoutfirstload = [];
   }
 
@@ -19,9 +19,9 @@ class GetData {
 
   getDataInPlay(app, dateSelect) {
     let that = this
-    this.odldate = dateSelect
+    this.olddate = dateSelect
     $.ajax({
-      url: 'http://localhost:8000/score_watch_v2/index.php/api/get_running/' + this.odldate,
+      url: 'http://localhost:8000/score_watch_v2/index.php/api/get_running/' + this.olddate,
       jsonp: 'callback',
       dataType: 'jsonp',
       success: function (response) {
@@ -95,7 +95,7 @@ class GetData {
           app.$store.commit('setdataSelectedPrediction', app.inplayprediction.find(x => x.match_code == match_code_active))
         }
         that.timeoutfirstload.push(setTimeout(() => {
-          that.getDataInPlay(app, that.odldate)
+          that.getDataInPlay(app, that.olddate)
         }, 3000))
 
       },
@@ -104,9 +104,9 @@ class GetData {
 
   getDataPregame(app,dateSelect) {
     let that = this
-    this.odldate = dateSelect
+    this.olddate = dateSelect
     $.ajax({
-      url: 'http://localhost:8000/score_watch_v2/index.php/api/get_pregame/' + this.odldate,
+      url: 'http://localhost:8000/score_watch_v2/index.php/api/get_pregame/' + this.olddate,
       jsonp: 'callback',
       dataType: 'jsonp',
       success: function (response) {
@@ -120,7 +120,19 @@ class GetData {
         app.leagueExpPregame = []
         app.leaguePregame = []
 
-
+        data.forEach(v => {
+          if (v.match_period == 'FT') {
+            pregameExpired.push(v)
+          } else {
+            var currentdate=(new Date()).getDate()
+            var match_dt=(new Date(v.match_dt)).getDate()
+            if(match_dt<currentdate){
+              pregameExpired.push(v)
+            }else{
+              pregamePrediction.push(v)
+            }
+          }
+        })
         for (var i = 0; i < pregamePrediction.length; i++) {
           if (!that.checkLeague(pregamePrediction[i].league, leaguePregame)) {
             leaguePregame.push({
@@ -142,21 +154,9 @@ class GetData {
       app.leagueExpPregame = leagueExpPregame
       app.pregame = pregamePrediction
       app.expiredPregame = pregameExpired
-        // app.expiredPregame=data.MatchesFinished
-        // if (app.$store.state.predictionSelected.match_code != '') {
-        // 	let type = app.$store.state.predictionSelected.type
-        // 	let match_code = app.$store.state.predictionSelected.match_code
-        // 	switch (type) {
-        // 		case 'pregame':
-        // 			app.$store.state.dataPredictionDetail = data.Pregame.find(
-        // 				x => x.match_code == match_code,
-        // 			)
-        // 			break
-        // 	}
-        // }
 
         that.timeoutfirstload.push(setTimeout(() => {
-          that.getDataPregame(that.app)
+          that.getDataPregame(that.app,that.olddate)
         }, 600000))
       },
     })
@@ -183,9 +183,9 @@ class GetData {
 
   getDataPreInplay(app, dateSelect) {
     let that = this
-    this.odldate = dateSelect
-    let urlInplay = 'http://localhost:8000/score_watch_v2/index.php/api/get_running/' + this.odldate
-    let urlPregame = 'http://localhost:8000/score_watch_v2/index.php/api/get_pregame/' + this.odldate
+    this.olddate = dateSelect
+    let urlInplay = 'http://localhost:8000/score_watch_v2/index.php/api/get_running/' + this.olddate
+    let urlPregame = 'http://localhost:8000/score_watch_v2/index.php/api/get_pregame/' + this.olddate
     this.stopAlltimeout();
 
     $.when(
@@ -199,6 +199,7 @@ class GetData {
         dataType: 'jsonp',
       })
     ).done((inplay, pregame) => {
+      var oldDateSelected=that.olddate
       var leagueExpInplay = []
       var leagueInplay = []
       var leaguePregame = []
@@ -258,7 +259,13 @@ class GetData {
         if (v.match_period == 'FT') {
           pregameExpired.push(v)
         } else {
-          pregamePrediction.push(v)
+          var currentdate=(new Date()).getDate()
+          var match_dt=(new Date(v.match_dt)).getDate()
+          if(match_dt<currentdate){
+            pregameExpired.push(v)
+          }else{
+            pregamePrediction.push(v)
+          }
         }
       })
       for (var i = 0; i < inplayExpired.length; i++) {
@@ -322,11 +329,11 @@ class GetData {
       }
 
       that.timeoutfirstload.push(setTimeout(() => {
-        that.getDataInPlay(app, that.odldate)
+        that.getDataInPlay(app, that.olddate)
       }, 3000))
 
       that.timeoutfirstload.push(setTimeout(() => {
-        that.getDataPregame(app, that.odldate)
+        that.getDataPregame(app, that.olddate)
       }, 600000))
     })
   }
