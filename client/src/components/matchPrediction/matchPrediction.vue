@@ -3,9 +3,9 @@
     <div class="matchprediction" @click="selectedPrediction(items.idmatch)" :class="{'activePrediction':items.idmatch==activePrediction}">
       <match :typematch="typeprediction" :item="items"></match>
       <template v-for="(item,index) in items.detail">
-        <prediction :live="typeprediction" :items="item" :key="index"></prediction>
+        <prediction :live="typeprediction" :items="item" :key="index" v-show="typeprediction=='expiredinplay'"></prediction>
       </template>
-      <prediction :live="typeprediction" :items="items" v-show="typeprediction=='pregame'"></prediction>
+      <prediction :live="typeprediction" :items="items" v-show="typeprediction=='expiredpregame'"></prediction>
       <overunder :live="typeprediction" :items="items"></overunder>
     </div>
   </div>
@@ -66,6 +66,7 @@ export default {
   margin: 0 8px;
   background-color: #f0f0f0;
   cursor: pointer;
+  box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.17);
 }
 .containerpreidction {
   background-color: #f0f0f0;

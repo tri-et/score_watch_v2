@@ -18,7 +18,7 @@
           <div class="nomatch" v-show="leagueExpInplay.length==0">No matches to show</div>
           <template v-for="(item,index) in leagueExpInplay">
             <league :key="index+'expinplay'" :leaguename="item.league"></league>
-            <matchprediction v-for="(items,index) in inplayExpired" :key="index+items.idmatch" :items="items" v-if="item.league==items.league" typeprediction="expired">
+            <matchprediction v-for="(items,index) in inplayExpired" :key="index+items.idmatch" :items="items" v-if="item.league==items.league" typeprediction="expiredinplay">
             </matchprediction>
           </template>
         </div>
@@ -34,14 +34,14 @@
           <div class="nomatch" v-show="leagueExpPregame.length==0">No matches to show</div>
           <template v-for="(item,index) in leagueExpPregame">
             <league :key="index+'exppregame'" :leaguename="item.league"></league>
-            <matchprediction v-for="(items,index) in expiredPregame" :key="index+items.idmatch" :items="items" v-if="item.league==items.league" typeprediction="expired">
+            <matchprediction v-for="(items,index) in expiredPregame" :key="index+items.idmatch" :items="items" v-if="item.league==items.league" typeprediction="expiredpregame">
             </matchprediction>
           </template>
         </div>
       </div>
-      <div class="cls"></div>
+      
     </div>
-    <div class="container-detail" :class="{'container-detail-visible':isOpenDetailPrediction}">
+    <div class="container-detail" onclick="event.cancelBubble=true;" :class="{'container-detail-visible':isOpenDetailPrediction}">
       <div class="detail">
         <containerdetail></containerdetail>
       </div>
@@ -189,10 +189,10 @@ export default {
   height: 100%;
   float: right;
   transform: translateX(0);
-  transition: transform 0.5s linear;
+  transition: transform 1s linear;
 }
 .container-detail-visible{
-  transform: translateX(100%);
+  transform: translateX(200%);
 }
 
 

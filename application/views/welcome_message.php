@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<title>Score Watch</title>
 		<link href="assets/css/app.css" rel="stylesheet">
   </head>
-  <body style="margin:0px">
+  <body style="margin:0px;overflow:hidden">
     <div id="app"></div>
 		<!-- built files will be auto injected -->
 		<script src="assets/js/manifest.js"></script>

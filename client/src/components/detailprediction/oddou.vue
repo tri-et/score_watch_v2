@@ -1,6 +1,6 @@
 <template>
   <div>
-    <span>{{items.odd}}</span>
+    <span>{{items.odd|setDash}}</span>
     <span class="arrow" :class="arrow"></span>
   </div>
 </template>
@@ -11,6 +11,11 @@ export default {
     return {
       arrow: ""
     };
+  },
+  filters:{
+    setDash(val){
+      return val==''?'-':val
+    }
   },
   watch: {
     items: function(newdata, oldvalue) {

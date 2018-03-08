@@ -3,17 +3,20 @@
     <menuheader></menuheader>
     <router-view/>
     <help></help>
+    <menusidebar></menusidebar>
   </div>
 </template>
 
 <script>
 import menuheader from "@/components/menuHeader";
-import help from "@/components/help"
+import help from "@/components/help";
+import menusidebar from "@/components/menuSideBar";
 export default {
   name: "App",
   components: {
     menuheader,
-    help
+    help,
+    menusidebar
   }
 };
 </script>
@@ -30,7 +33,6 @@ export default {
   flex-direction: column;
   font-family: Roboto;
   min-width: 320px;
-
   justify-content: flex-start;
   align-items: stretch;
   align-content: stretch;
@@ -51,9 +53,9 @@ export default {
 }
 
 ::-webkit-scrollbar-thumb {
-  /* background-color: #cacaca; */
   border: none;
   border-radius: 10px;
-  background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0) 50%);
+  background: linear-gradient(180deg, #cacaca 0%, rgba(255, 255, 255, 0) 50%);
+  /* background-color: red; */
 }
 </style>

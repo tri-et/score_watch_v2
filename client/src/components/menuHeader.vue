@@ -2,7 +2,7 @@
   <header>
     <nav>
       <ul>
-        <li>
+        <li @click="openSideBar()">
           <i class="material-icons">menu</i>
         </li>
         <li>
@@ -31,6 +31,9 @@ export default {
   methods:{
     openHelp(){
       this.$store.commit('setisopenHelp',true)
+    },
+    openSideBar(){
+      this.$store.commit('setisopenMenuSideBar',true)
     }
   }
 };

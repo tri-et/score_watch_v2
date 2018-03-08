@@ -7,7 +7,7 @@
     <div class="match_time" v-show="typematch=='pregame'">
       <span>{{item.match_dt|matchDate}}</span>
     </div>
-    <div class="match_time_ft" v-show="typematch=='expired'">
+    <div class="match_time_ft" v-show="typematch=='expired'||typematch=='expiredinplay'||typematch=='expiredpregame'">
       <span>FT</span>
       <span>{{item.match_dt|matchDate}}</span>
     </div>
