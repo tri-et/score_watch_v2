@@ -1,12 +1,19 @@
 <template>
   <div class="containerpreidction">
-    <div class="matchprediction" @click="selectedPrediction(items.idmatch)" :class="{'activePrediction':items.idmatch==activePrediction}">
+    <div class="matchprediction" @click="selectedPrediction(items.idmatch)" 
+    :class="{'activeExpi':items.idmatch==activePrediction && (boderActive=='expiredpregame' || boderActive=='expiredinplay'),
+    'activePrediction':items.idmatch==activePrediction && boderActive=='inplay',
+    'activePregame':items.idmatch==activePrediction && boderActive=='pregame'}">
       <match :typematch="typeprediction" :item="items"></match>
       <template v-for="(item,index) in items.detail">
-        <prediction :live="typeprediction" :items="item" :key="index" v-show="typeprediction=='expiredinplay'"></prediction>
+        <prediction :live="typeprediction" :items="item" :key="index" v-show="typeprediction=='expiredinplay'||typeprediction=='inplay'"></prediction>
       </template>
       <prediction :live="typeprediction" :items="items" v-show="typeprediction=='expiredpregame'"></prediction>
-      <overunder :live="typeprediction" :items="items"></overunder>
+      <template v-for="(item,index) in items.detailou">
+        <overunder :teamscore="{'score_home':items.score_home,'score_away':items.score_away}" :live="typeprediction" :items="item" :key="index+item.match_code"></overunder>
+      </template>
+      <!-- show over/under for pregame,expired pregame block -->
+      <overunderpregame :live="typeprediction" :items="items" v-show="typeprediction=='expiredpregame'||typeprediction=='pregame'"></overunderpregame>
     </div>
   </div>
 
@@ -15,6 +22,7 @@
 import match from "@/components/matchPrediction/match";
 import prediction from "@/components/matchPrediction/prediction";
 import overunder from "@/components/matchPrediction/overunder";
+import overunderpregame from "@/components/matchPrediction/overunderpregame";
 import { mapGetters } from "vuex";
 export default {
   props: {
@@ -28,13 +36,21 @@ export default {
   components: {
     match,
     prediction,
-    overunder
+    overunder,
+    overunderpregame
   },
   methods: {
     selectedPrediction(matchcode) {
+      var self=this
+      this.$store.commit('sethideDetail',false)
       this.$store.commit("setactivePrediction", matchcode);
+      this.$store.commit("setboderActive", this.typeprediction);
       this.$store.commit("setdataSelectedPrediction", this.items);
       this.$store.commit("setisOpenDetailPrediction", false);
+     this.$store.commit("setshrink", true);
+      setTimeout(() => {
+          self.$store.commit("setshrink", false);
+        }, 1200);
       switch (this.typeprediction) {
         case "inplay":
           this.$store.commit("settypePrediction", {
@@ -57,7 +73,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["activePrediction"])
+    ...mapGetters(["activePrediction","boderActive"])
   }
 };
 </script>
@@ -74,6 +90,12 @@ export default {
 }
 .activePrediction {
   border: solid 1px #ff7c7c;
+}
+.activePregame {
+  border: solid 1px #5bb6e7;
+}
+.activeExpi {
+  border: solid 1px #767676;
 }
 </style>
 

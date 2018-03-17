@@ -6,14 +6,18 @@ export default new Vuex.Store({
   state: {
     calendarPre: 14,
     activePrediction: null,
+    boderActive: 'inplay',
     dataSelectedPrediction: {},
     isOpenDetailPrediction: false,
     typePrediction: {
-      colorheader:'#767676',
-      colorprediction:'#f0f0f0'
+      colorheader: '#767676',
+      colorprediction: '#f0f0f0'
     },
-    isopenHelp:false,
-    isopenMenuSideBar:false
+    isopenHelp: false,
+    isopenMenuSideBar: false,
+    shrink: false,
+    hideDetail: true,
+    menuActive:'predictions'
   },
   getters: {
     calendarPre(state) {
@@ -21,6 +25,9 @@ export default new Vuex.Store({
     },
     activePrediction(state) {
       return state.activePrediction
+    },
+    boderActive(state) {
+      return state.boderActive
     },
     dataSelectedPrediction(state) {
       return state.dataSelectedPrediction
@@ -36,6 +43,15 @@ export default new Vuex.Store({
     },
     isopenMenuSideBar(state) {
       return state.isopenMenuSideBar
+    },
+    shrink(state) {
+      return state.shrink
+    },
+    hideDetail(state) {
+      return state.hideDetail
+    },
+    menuActive(state) {
+      return state.menuActive
     }
   },
   mutations: {
@@ -44,6 +60,9 @@ export default new Vuex.Store({
     },
     setactivePrediction(state, val) {
       state.activePrediction = val
+    },
+    setboderActive(state, val) {
+      state.boderActive = val
     },
     setdataSelectedPrediction(state, val) {
       state.dataSelectedPrediction = val
@@ -59,6 +78,15 @@ export default new Vuex.Store({
     },
     setisopenMenuSideBar(state, val) {
       state.isopenMenuSideBar = val
+    },
+    setshrink(state, val) {
+      state.shrink = val
+    },
+    sethideDetail(state, val) {
+      state.hideDetail = val
+    },
+    setmenuActive(state, val){
+      state.menuActive = val
     }
   },
   actions: {}

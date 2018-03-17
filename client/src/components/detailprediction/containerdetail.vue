@@ -1,5 +1,5 @@
 <template>
-  <div class="containerdetail">
+  <div class="containerdetail" :class="{'shrink':shrink}">
     <tabbar></tabbar>
     <predictiondetail live="inplay" :items="dataSelectedPrediction"></predictiondetail>
     <headerdetail></headerdetail>
@@ -85,7 +85,7 @@ import tabbar from "./tabbar";
 import { mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters(["dataSelectedPrediction"])
+    ...mapGetters(["dataSelectedPrediction","shrink"])
   },
   components: {
     headerdetail,
@@ -149,6 +149,23 @@ export default {
 .m8 div:nth-child(2) {
   color: #000;
   opacity: 0.54;
+}
+.shrink{
+  animation:fadeInOutScale 1s;
+}
+@keyframes fadeInOutScale {
+    0% {
+        transform: scale(1);
+        opacity:1
+    }
+    50% {
+        transform: scale(0.9);  
+        opacity:0
+    }
+    100% {
+        transform: scale(1);
+        opacity:1
+    }       
 }
 </style>
 

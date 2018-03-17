@@ -15,7 +15,7 @@
       <countdown :items="items"></countdown>
     </div>
     <div class="timer" v-show="live=='expiredinplay'">
-      <span>{{'expired['+items.minutes+']'}}</span>
+      <span>{{'expired['+items.minutes+'\']'}}</span>
     </div>
     <div class="new" v-show="isnew">
       <span>new</span>
@@ -56,7 +56,7 @@ export default {
       var url = pred_gold;
       let score_home = parseInt(data.score_home);
       let score_away = parseInt(data.score_away);
-      let hpd = parseFloat(data.sys_hdp);
+      let hpd = Math.abs(parseFloat(data.sys_hdp));
       if (live == "expiredinplay" || live == "expiredpregame") {
         switch (data.pick_hdp) {
           case "H":

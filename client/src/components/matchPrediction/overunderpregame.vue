@@ -3,7 +3,7 @@
     <div class="icongold"><img :src="setSrcIconUnder(items,live)" alt="" width="24" height="24" :key="1233"></div>
     <div class="teamname">{{items.pick_ou=="O"?'Over':'Under'}}&nbsp;</div>
     <div class="odds">
-      <span>{{'['+teamscore.score_home+':'+teamscore.score_away+']'}}</span>
+      <span>{{'['+items.score_home+':'+items.score_away+']'}}</span>
       <span>{{items.sys_ou}}</span>
       <span>@</span>
       <span>{{items.pick_ou=="O"?items.sys_odds_over:items.sys_odds_under}}</span>
@@ -26,9 +26,6 @@ export default {
     },
     items: {
       type: Object
-    },
-    teamscore:{
-      type:Object
     }
   },
   data() {
@@ -44,7 +41,7 @@ export default {
     setSrcIconUnder(data,live) {
       let url = ''
       let ou = parseFloat(data.sys_ou)
-      let finalsocre=parseInt(this.teamscore.score_home)+parseInt(this.teamscore.score_away)
+      let finalsocre=parseInt(data.score_home)+parseInt(data.score_away)
       if (live == 'expiredinplay' || live =='expiredpregame') {
         switch (data.pick_ou) {
           case 'O':

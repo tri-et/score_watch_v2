@@ -9,10 +9,20 @@
           <a class="logo"></a>
         </li>
         <li>
-          <a>predictions</a>
+          <router-link :to="{ path: '/'}" @click.native="selectMenu('predictions')">
+            <div>predictions</div>
+            <div class="circle-content">
+              <div class="circle" :class="{'circle-isvisibel':menuActive=='predictions'}"></div>
+            </div>
+          </router-link>
         </li>
         <li>
-          <a>live score</a>
+          <router-link :to="{ path: '/livescore'}" @click.native="selectMenu('pregame')">
+            <div>live score</div>
+            <div class="circle-content">
+              <div class="circle" :class="{'circle-isvisibel':menuActive=='pregame'}"></div>
+            </div>
+          </router-link>
         </li>
         <!-- <li><a>help</a></li>
         <li><a>about</a></li> -->
@@ -27,13 +37,20 @@
   </header>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
-  methods:{
-    openHelp(){
-      this.$store.commit('setisopenHelp',true)
+  computed: {
+    ...mapGetters(["menuActive"])
+  },
+  methods: {
+    openHelp() {
+      this.$store.commit("setisopenHelp", true);
     },
-    openSideBar(){
-      this.$store.commit('setisopenMenuSideBar',true)
+    openSideBar() {
+      this.$store.commit("setisopenMenuSideBar", true);
+    },
+    selectMenu(menuType) {
+      this.$store.commit("setmenuActive", menuType);
     }
   }
 };
@@ -43,27 +60,43 @@ export default {
   li:not(:first-child):not(:nth-child(3)):not(:nth-child(5)) {
     display: none;
   }
-  li:nth-child(3){
+  li:nth-child(3) {
     flex: 1;
+  }
+
+  li {
+    padding: 0 15px;
+  }
+  .circle-content {
+    display: none;
   }
 }
 @media (min-width: 843px) {
-  li:first-child,:nth-child(5){
+  li:first-child,
+  :nth-child(5) {
     display: none;
   }
-  li:nth-child(3){
+  li:nth-child(3) {
     flex: none;
-    box-shadow: -1px 0 0 0 rgba(255,255,255,0.1);
+    box-shadow: -1px 0 0 0 rgba(255, 255, 255, 0.1);
   }
   li:not(:first-child):not(:nth-child(3)):not(:nth-child(5)) {
     display: grid;
   }
-  li:nth-child(4){
+  li:nth-child(4) {
     flex: 1;
   }
 
-  li:nth-child(2){
+  li:nth-child(2) {
     padding: 8px;
+  }
+
+  .circle-content {
+    display: flex;
+  }
+
+  li {
+    padding: 8px 15px 0px 15px;
   }
 }
 
@@ -88,11 +121,21 @@ li {
   float: left;
   display: grid;
   align-items: center;
-  height: 64px;
-  padding: 0 15px;
+  height: 56px;
+
   text-transform: uppercase;
   color: white;
   cursor: pointer;
+}
+
+li a {
+  width: fit-content;
+  color: #fff;
+  text-decoration: none;
+}
+
+li a:hover .circle {
+  visibility: visible !important;
 }
 
 li:nth-child(4) {
@@ -111,6 +154,23 @@ li:last-child {
   background: linear-gradient(180deg, #e8e8e8 0%, #ffffff 100%);
   box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.5),
     0 2px 3px 0 rgba(0, 0, 0, 0.34);
+}
+
+.circle-content {
+  justify-content: center;
+}
+.circle {
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border-radius: 50px;
+  visibility: hidden;
+}
+
+.circle-isvisibel {
+  visibility: visible !important;
 }
 </style>
 
