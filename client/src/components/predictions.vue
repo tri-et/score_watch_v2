@@ -39,9 +39,8 @@
           </template>
         </div>
       </div>
-      
     </div>
-    <div class="container-detail" onclick="event.cancelBubble=true;" :class="{'container-detail-visible':isOpenDetailPrediction}">
+    <div class="container-detail" onclick="event.cancelBubble=true;" :class="{'container-detail-visible':isOpenDetailPrediction,'container-detail-hidden':hideDetail}">
       <div class="detail">
         <containerdetail></containerdetail>
       </div>
@@ -54,11 +53,11 @@ import matchprediction from "@/components/matchPrediction/matchPrediction";
 import containerdetail from "@/components/detailprediction/containerdetail";
 import calendar from "@/components/matchPrediction/calendar";
 import GetData from "../modules/get_data";
-import { mapGetters} from "vuex";
+import { mapGetters } from "vuex";
 let getdata = new GetData();
 
 export default {
-  name:'predictions',
+  name: "predictions",
   data() {
     return {
       inplayprediction: [],
@@ -69,7 +68,7 @@ export default {
       leagueExpPregame: [],
       leagueInplay: [],
       leaguePregame: [],
-      getData:getdata
+      getData: getdata
     };
   },
   components: {
@@ -79,12 +78,25 @@ export default {
     calendar
   },
   computed: {
-    ...mapGetters(["isOpenDetailPrediction"])
+    ...mapGetters(["isOpenDetailPrediction", "hideDetail"])
   },
   mounted() {
-    var today=new Date()
-    var dateselect=today.getFullYear() + '-' + (parseInt(today.getMonth()) + 1) + '-' + (today.getDate())
-    getdata.getDataPreInplay(this,dateselect);
+    var today = new Date();
+    var dateselect =
+      today.getFullYear() +
+      "-" +
+      (parseInt(today.getMonth()) + 1) +
+      "-" +
+      today.getDate();
+    getdata.getDataPreInplay(this, dateselect);
+    this.$nextTick(() => {
+      if (this.$el.clientWidth < 672) {
+        this.$store.commit("sethideDetail", true);
+        this.$store.commit("setisOpenDetailPrediction", true);
+      } else {
+        this.$store.commit("sethideDetail", false);
+      }
+    });
   }
 };
 </script>
@@ -191,16 +203,19 @@ export default {
   transform: translateX(0);
   transition: transform 1s linear;
 }
-.container-detail-visible{
+.container-detail-visible {
   transform: translateX(200%);
 }
-
 
 .detail {
   background-color: white;
   float: right;
   width: 100%;
   height: 100%;
+}
+
+.container-detail-hidden {
+  display: none;
 }
 
 .inplay-prediction {
@@ -269,13 +284,17 @@ export default {
   text-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
   margin-top: 15px;
 }
-.nomatch{
-background-color: #F0F0F0;
-height: 100px;
-color:#B7B7B7;
-display: flex;
-align-items: center;
-justify-content: center;
+.nomatch {
+  background-color: #f0f0f0;
+  height: 100px;
+  color: #b7b7b7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.footer {
+  background-color: navy;
+  height: 64px;
 }
 .cls {
   clear: both;

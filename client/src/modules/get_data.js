@@ -102,7 +102,7 @@ class GetData {
     })
   }
 
-  getDataPregame(app,dateSelect) {
+  getDataPregame(app, dateSelect) {
     let that = this
     this.olddate = dateSelect
     $.ajax({
@@ -124,11 +124,11 @@ class GetData {
           if (v.match_period == 'FT') {
             pregameExpired.push(v)
           } else {
-            var currentdate=(new Date()).getDate()
-            var match_dt=(new Date(v.match_dt)).getDate()
-            if(match_dt<currentdate){
+            var currentdate = (new Date()).getDate()
+            var match_dt = (new Date(v.match_dt)).getDate()
+            if (match_dt < currentdate) {
               pregameExpired.push(v)
-            }else{
+            } else {
               pregamePrediction.push(v)
             }
           }
@@ -140,7 +140,7 @@ class GetData {
             })
           }
         }
-  
+
         for (var i = 0; i < pregameExpired.length; i++) {
           if (!that.checkLeague(pregameExpired[i].league, leagueExpPregame)) {
             leagueExpPregame.push({
@@ -149,14 +149,14 @@ class GetData {
           }
         }
 
-     
-      app.leaguePregame = leaguePregame
-      app.leagueExpPregame = leagueExpPregame
-      app.pregame = pregamePrediction
-      app.expiredPregame = pregameExpired
+
+        app.leaguePregame = leaguePregame
+        app.leagueExpPregame = leagueExpPregame
+        app.pregame = pregamePrediction
+        app.expiredPregame = pregameExpired
 
         that.timeoutfirstload.push(setTimeout(() => {
-          that.getDataPregame(that.app,that.olddate)
+          that.getDataPregame(app, that.olddate)
         }, 600000))
       },
     })
@@ -199,7 +199,7 @@ class GetData {
         dataType: 'jsonp',
       })
     ).done((inplay, pregame) => {
-      var oldDateSelected=that.olddate
+      var oldDateSelected = that.olddate
       var leagueExpInplay = []
       var leagueInplay = []
       var leaguePregame = []
@@ -225,24 +225,24 @@ class GetData {
           inplayExpired.push(v)
         } else {
           var isExpired = []
-          v.detail.forEach(items => {
-            var minutes = parseInt(items.minutes)
-            var predictionTime = (new Date(items.time)).getTime()
-            var currentTime = (new Date()).getTime()
-            if (minutes < 70) {
-              if (currentTime - predictionTime > 13 * 60000) {
-                isExpired.push(true);
+            v.detail.forEach(items => {
+              var minutes = parseInt(items.minutes)
+              var predictionTime = (new Date(items.time)).getTime()
+              var currentTime = (new Date()).getTime()
+              if (minutes < 70) {
+                if (currentTime - predictionTime > 13 * 60000) {
+                  isExpired.push(true);
+                } else {
+                  isExpired.push(false);
+                }
               } else {
-                isExpired.push(false);
+                if (currentTime - predictionTime > 6 * 60000) {
+                  isExpired.push(true);
+                } else {
+                  isExpired.push(false);
+                }
               }
-            } else {
-              if (currentTime - predictionTime > 6 * 60000) {
-                isExpired.push(true);
-              } else {
-                isExpired.push(false);
-              }
-            }
-          })
+            })
 
           var expired = isExpired.every(function (item, index, array) {
             return item;
@@ -259,11 +259,11 @@ class GetData {
         if (v.match_period == 'FT') {
           pregameExpired.push(v)
         } else {
-          var currentdate=(new Date()).getDate()
-          var match_dt=(new Date(v.match_dt)).getDate()
-          if(match_dt<currentdate){
+          var currentdate = (new Date()).getDate()
+          var match_dt = (new Date(v.match_dt)).getDate()
+          if (match_dt < currentdate) {
             pregameExpired.push(v)
-          }else{
+          } else {
             pregamePrediction.push(v)
           }
         }
@@ -317,8 +317,9 @@ class GetData {
           colorheader: "#ff7c7c",
           colorprediction: "#FEE1E1"
         });
+        app.$store.commit("setboderActive", 'inplay')
       } else if (app.pregame.length > 0) {
-        app.$store.commit('setactivePrediction', app.pregame[0]['match_code'])
+        app.$store.commit('setactivePrediction', app.pregame[0]['idmatch'])
         app.$store.commit('setdataSelectedPrediction', app.pregame[0])
 
         //set type for prediction detail at first load
@@ -326,6 +327,18 @@ class GetData {
           colorheader: "#5bb6e7",
           colorprediction: "#C8E6F7"
         });
+
+        app.$store.commit("setboderActive", 'pregame')
+      } else if (app.inplayExpired.length > 0) {
+        app.$store.commit('setactivePrediction', app.inplayExpired[0]['idmatch'])
+        app.$store.commit('setdataSelectedPrediction', app.inplayExpired[0])
+
+        //set type for prediction detail at first load
+        app.$store.commit("settypePrediction", {
+          colorheader: "#767676",
+          colorprediction: "#f0f0f0"
+        });
+        app.$store.commit("setboderActive", 'expiredinplay')
       }
 
       that.timeoutfirstload.push(setTimeout(() => {
